@@ -1,0 +1,984 @@
+//SSM2CSS
+$yellow: #FFE800;
+$brown: #404040;
+$blue: #1CD3F8;
+$angle: 8px;
+$angle-o: 4px;
+
+
+.box
+{
+	text-align:center;
+	padding:0px;
+	box-shadow:none;
+}
+
+.thing,.box-header,.box-footer,.box-bit
+{
+	background:#39f;
+	box-shadow:0px 0px 4px rgba(0,0,0,0.2),1px 1px 2px rgba(0,0,0,0.5),0px 0px 4px rgba(255,255,255,0.5) inset;
+}
+.box-bit{border-radius:0px;}
+
+.box-header
+{
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+	margin-bottom:0px;
+	text-align: center;
+}
+.box-footer
+{
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	margin-top:1px;
+}
+
+
+#game{
+background-image: hidden !important;
+z-index: 3 !important; 
+}
+
+.thing .shiny .noClick .noText{
+
+z-index: -1 !important; 
+
+}
+
+.thing .shiny .bigButton .noText{
+
+z-index: 4 !important; 
+
+}
+
+
+
+.shiny-icon{
+
+
+//opacity: 0.2;
+//transform: rotate(90deg) !important;
+
+}
+
+#box-main
+{
+	left:0px;
+	top:0px;
+	bottom:0px;
+	overflow:hidden;
+	width:30%;
+	position:absolute;
+}
+#box-res.fullWidth
+{
+	width:100%;
+	top:40%;
+	height:5%;
+	min-height:32px;
+	z-index:100;
+	position:absolute;
+}
+#box-buttons
+{
+	top:0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	position:absolute;
+}
+#box-store
+{
+	right:0px;
+	top:0px;
+	bottom:0px;
+	margin-bottom:0px;
+	width:70%;
+	position:absolute;
+}
+#box-buildings,#box-upgrades,#box-buildings2,#box-upgrades2
+{
+	top:0px;
+	bottom:0px;
+	width:25%;
+	//right:0px;
+	overflow-x:hidden;
+	overflow-y:scroll;
+	padding-bottom:48px;/* this is to accommodate the info and settings buttons */
+	position:absolute;
+}
+#box-buildings
+{right:75%;}
+
+#box-upgrades
+{right:50%;}
+
+#box-buildings2
+{
+right:0%;
+
+}
+
+#box-upgrades2
+{right:25%;}
+
+
+//#box-buildings{background:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.25) 20%);}
+//#box-upgrades{background:rgba(0,0,0,0.3);}
+//#box-buildings2{background:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.25) 20%);}
+//#box-upgrades2{background:rgba(0,0,0,0.3);}
+
+#bulkDisplay{margin:-11px 24px 4px 24px;}
+
+
+.thing
+{
+	display:inline-block;
+	padding:auto;
+	margin:auto;
+	margin-bottom:1px;
+	cursor:pointer;
+}
+.thing:hover,.thing.lit
+{
+	background:#6cf;
+}
+.thing.cantAfford
+{
+	opacity:0.65;
+}
+.upgrade.cantAfford
+{
+	box-shadow:0px 0px 4px #39f;
+	border-radius:8px;
+}
+.upgrade.cantAfford:hover
+{
+	box-shadow:0px 0px 4px #6cf;
+}
+.upgrade.owned,.achiev.owned
+{
+	background:#6cf;
+}
+.thing-text,.thing-costs{font-weight:bold;}
+
+
+
+.building
+{
+	padding-left: 10% !important;
+	border-top-left-radius:20px;
+	border-bottom-left-radius:20px;
+	display:block;
+	padding-right: auto;
+	margin-right:auto;
+	font-size:14px;
+}
+
+.fullWidth
+{
+	display:block;
+	margin-left:0px;
+	margin-right:0px;
+	z-index:10;
+}
+#game .fullWidth
+{
+	height:auto;
+	min-height:auto;
+}
+.fullWidth,.fullWidth:hover
+{
+	/*background:rgba(0,0,0,0.5);
+	background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.25) 50%,rgba(0,0,0,0.5) 100%);*/
+	background:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.25) 50%,rgba(0,0,0,0) 100%);
+	box-shadow:none;
+}
+.fullWidth:before,.fullWidth:after
+{
+	content:'';
+	height:1px;
+	background:linear-gradient(to right,rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0) 100%);
+	position:absolute;
+	left:0px;
+	right:0px;
+	z-index:-1;
+}
+.fullWidth:before{top:-1px;}
+.fullWidth:after{bottom:-1px;}
+
+.fullWidth .thing-icon
+{
+	margin-top:-14px;
+	margin-bottom:-14px;
+}
+.fullWidth .thing-text
+{
+	margin-top:-4px;
+	margin-bottom:-4px;
+}
+
+#game.filtersOn .thing-icon{filter:drop-shadow(0px 0px 0px rgba(0,0,0,0));}
+
+
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+#game
+  {
+    background:#002130;
+    background-size: cover;
+    font-family: DejaVu Sans Mono, monospace !important;
+    letter-spacing: 0px;
+ 	//font-size: 12px;
+    font-stretch: ultra-expanded;
+   
+   // font-family:Century Gothic,sans-serif;
+    //font-weight:100;
+    color:#93f8ff;
+  }
+.upgrade, .building
+  {
+
+background-repeat: no-repeat;
+    font-weight:100 !important;
+    margin-top:0px;
+    padding: 6% 6%;
+    text-align: left;
+    //height: 48px;
+    border-radius:0px;
+    //background:#002130;
+    border: 0px solid #002130;
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to right, #00000000 , #4286f433 , #93f8ff55);
+	width: 100%;
+
+  transition: all .15s linear 0s;
+  position: relative;
+  display: inline-block;
+  
+  background-color: $yellow;
+  color: $brown;
+  
+  
+  
+  box-shadow: -6px 6px 0 $brown;
+  text-decoration: none;
+  
+  &:hover {
+    top: 3px;
+    left: -3px;
+    box-shadow: -3px 3px 0 $brown;
+    
+    &::after {
+      top: 1px;
+      left: -2px;
+      width: $angle-o;
+      height: $angle-o;
+    }
+    
+    &::before {
+      bottom: -2px;
+      right: 1px;
+      width: $angle-o;
+      height: $angle-o;
+    }
+  }
+  
+  &::after {
+    transition: all .15s linear 0s;
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: -4px;
+    width: $angle;
+    height: $angle;
+    background-color: $brown;
+    transform: rotate(45deg);
+    z-index: -1;
+    
+  }
+  
+  &::before {
+    transition: all .15s linear 0s;
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: 2px;
+    width: $angle;
+    height: $angle;
+    background-color: $brown;
+    transform: rotate(45deg);
+    z-index: -1;
+  }
+}
+
+.thing-text
+{
+
+
+
+}
+.thing-icon
+{
+ 	
+ }
+
+
+#thing-0
+  {
+   
+    background-repeat: no-repeat;
+    //max-width: 250px;
+    //max-height: 250px;
+    padding: 0px 50px;
+    border-radius:50%;
+    float: left;
+    padding-left: 21%;
+    background:rgba(0,55,79,0.00);
+	 
+	
+ 
+/*-webkit-animation-name: spin;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+   
+    animation-name: spin;
+    animation-duration: 910000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;*/
+}
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+ 
+ 
+ 
+#thing-0:hover
+  {
+   	
+    padding: 50px 50px;
+    border-radius:50%;
+    float: left;
+    padding-left: 21%;
+    color:#93f8ff;
+    background:rgba(0,55,79,0.00);
+    //background-image: linear-gradient(to right, #00000000 , #4286f466 , #93f8ff99);
+   
+  }
+ 
+.thing-text{
+ 
+font-weight:100;
+ 
+}
+ 
+#thing-1
+  {
+    padding: 40px 40px;
+    float: left;
+    padding-left: 14%;
+	width: 90%;
+   
+  }
+ 
+#thing-2
+  {
+    padding: 40px 40px;
+    padding-left: 14%;
+	padding-top: 10px !important;
+    float: left;
+	width: 90%;
+   
+  }
+#thing-3
+  {
+    padding: 40px 40px;
+    padding-left: 14%;
+	padding-top: 10px !important;
+    float: left;
+	width: 90%;
+   
+  }
+#thing-4
+  {
+    padding: 40px 40px;
+    padding-left: 14%;
+	padding-top: 10px !important;
+    float: left;
+	width: 90%;
+   
+  }
+ 
+ 
+.building:hover {
+ top: 0px !important;
+right: 0px !important;
+left: 0px !important;
+    //transform: skew(30deg);
+	
+}
+ 
+.thing:hover
+  {
+    border: 0px solid #93f8ff;
+    //background:#002130;
+    color:#93f8ff;
+    background:rgba(0,55,79,0.00);
+    background-image: linear-gradient(to right, #00000000 , #4286f466 , #93f8ff99);
+	
+  }
+.thing:active
+  {
+   
+    border: 0px solid #FFFFFF;
+    background:#002130;
+    color:#002130;
+    transform: translateY(2px);
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to right, #00000000 , #93f8ff55);
+  }
+ 
+.upgrade.owned, .achiev.owned {
+    //width: 100%;
+    //padding: 6% 6%;
+    text-align: left;
+    //height: 48px;
+    border-radius:0px;
+    //background:#002130;
+    border: 0px solid #002130;
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to right, #00000000 , #4286f433 , #93f8ff55);
+}
+.upgrade:hover{
+top: 0px !important;
+right: 0px !important;
+left: 0px !important;
+    //width: 100%;
+    float: left;
+    border: 0px solid #93f8ff;
+    //background:#002130;
+    color:#93f8ff;
+    text-align: left;
+    background:rgba(0,55,79,0.00);
+    background-image: linear-gradient(to left, #00000000 , #4286f466 , #93f8ff99);
+    box-shadow: 0px 0px 0px #39f;
+}
+.upgrade.owned:hover{
+    //width: 100%;
+    float: left;
+    padding: 6% 6%;
+    text-align: left;
+    //height: 48px;
+    border-radius:0px;
+    //background:#002130;
+    border: 0px solid #002130;
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to right, #00000000 , #4286f466 , #93f8ff99);
+}
+.upgrade.cantAfford {
+    //width: 100%;
+    float: left;
+    padding: 6% 6%;
+    text-align: left;
+    //height: 48px;
+    border-radius:0px;
+    //background:#002130;
+    border: 0px solid #002130;
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to left, #00000000 , #4286f433 , #93f8ff55);
+    box-shadow: 0px 0px 0px #39f;
+}
+.upgrade {
+    width: 100%;
+    float: left;
+    padding: 6% 6%;
+	padding-left: 10% !important;
+    text-align: left;
+    //height: 48px;
+    border-radius:0px;
+    //background:#002130;
+    border: 0px solid #002130;
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to left, #00000000 , #4286f433 , #93f8ff55);
+    box-shadow: 0px 0px 0px #39f;
+	font-family: DejaVu Sans Mono, monospace !important;
+	font-size: 14px;
+}
+.upgrade.notOwned {
+    width: 101% !important;
+    float: left;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 6% 6%;
+    text-align: left;
+    //height: 48px;
+    border-radius:0px;
+    //background:#002130;
+    border: 0px solid #002130;
+    background:rgba(255,255,255,0.0);
+    background-image: linear-gradient(to left, #00000000 , #4286f433 , #93f8ff55);
+    box-shadow: 0px 0px 0px #39f;
+}
+ 
+.upgrade.notOwned:hover{
+    
+    //float: left;
+    border: 0px solid #93f8ff;
+    //background:#002130;
+    color:#93f8ff;
+    text-align: left;
+    background:rgba(0,55,79,0.00);
+    background-image: linear-gradient(to left, #00000000 , #4286f466 , #93f8ff99);
+    box-shadow: 0px 0px 0px #39f;
+}
+ 
+ 
+.thing,.box-header,.box-footer,.box-bit
+{
+   
+    border: 0px solid #000000;
+    //font-family:"Courier",Courier,monospace;
+    //font-weight:300;
+    color:#93f8ff;
+    background:#002130;
+    background:rgba(255,255,255,0.0);
+    box-shadow:0px 0px 0px rgba(0,0,0,0),0px 0px 0px rgba(0,0,0,0),0px 0px 0px rgba(0,55,79,0) inset;
+    background-image: linear-gradient(to right, #00000000 , #4286f433 , #93f8ff55);
+}
+ 
+.glow {
+    animation: glow 0.0s;
+}
+ 
+ 
+ 
+.box-header {
+	
+    margin-bottom:1px;
+    padding: 15px 15px;
+    height: 40px;
+    border: 0px solid #000000;
+    border-radius: 0px;
+    //font-family: "Courier",Courier,monospace;
+    font-size: 18px;
+    color: #93f8ff;
+    background: #002130;
+    background: rgba(255,255,255,0.0);
+    box-shadow: 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px rgba(0,55,79,0) inset;
+    background-image: linear-gradient(to right, #00000000 , #4286f433 , #93f8ff55);
+	text-align: center;
+}
+ 
+ 
+#bulkDisplay {
+    position: relative;
+    top: 0px;
+    margin: 0px 0px 0px 0px;
+    margin-bottom: 0px;
+}
+ 
+#box-things-Buildings {
+position: relative;
+    
+ 
+}
+ 
+.box-bit{
+padding: 0% 0%;
+margin-bottom:0px;
+position: relative;
+top: 0px;
+border-radius: 0px;
+background: #00213000;
+}
+ 
+//#game.filtersOn .thing-icon{filter:drop-shadow(3px 3px 1px rgba(0,0,0,0.5));}
+#game.filtersOn .thing-icon{filter:drop-shadow(0px 0px 0px rgba(0,0,0,0));}
+ 
+.popup, #tooltip, .toast {
+    background: #000000FF;
+    background-image: linear-gradient(to top, #00000000 , #4286f455);
+    //text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+    color: #93f8ff;
+    //border: 0px solid #93f8ff;
+    //background: url(lib/img/darkNoise.jpg);
+    border-radius: 0px;
+    /*box-shadow: 0px 0px 0px 1px #000, 0px 0px 0px 2px rgba(255,255,255,0.5), 0px 0px 15px 1px rgba(255,255,255,0.15) inset, 4px 4px 2px rgba(0,0,0,0.25), 4px 4px 20px rgba(0,0,0,0.5);*/
+    box-sizing: border-box;
+    padding: 8px 8px;
+ 
+}
+
+ 
+#tooltipContent{
+color: #93f8ff;
+font-weight: 100;
+ 
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: #93f8ff33;
+	//background: #1f546a;
+
+    //background-image: linear-gradient(to left, #00000000 , #93f8ff55);
+    box-shadow: 0px 0px 0px 0px #333 inset, 0px 0px 0px 0px #999 inset, 0px 0px 0px 0px #fff inset;
+}
+ 
+::-webkit-scrollbar-track {
+    background: #4286f400;
+	box-shadow: 0px 0px 0px 0px #00000000 inset, 0px 0px 0px 0px #444 inset, 0px 0px 0px 0px #222 inset;
+	width: 20px !important;
+}
+::-webkit-scrollbar-thumb {
+    background: #93f8ff33;
+	//background: #1f546a;
+	
+    //background-image: linear-gradient(to left, #00000000, #93f8ff55);
+    box-shadow: 0px 0px 0px 0px #000 inset, 0px 0px 0px 0px #999 inset, 0px 0px 0px 0px #fff inset;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #93f8ff99;
+	//background: #5cb2c5;
+
+    box-shadow: 0px 0px 0px 0px #000 inset, 0px 0px 0px 0px #999 inset, 0px 0px 0px 0px #fff inset;
+}
+.achiev, .achiev:hover{
+    padding:5px 5px;
+    background-image: linear-gradient(to right, #00000000 , #4286f400 , #93f8ff00);
+}
+title {
+    display: none;
+}
+ 
+.my-anim {
+    animation-name: my-anim;
+    animation-duration: 0s;
+}
+ 
+.thing.bigButton, .thing-icon {
+top: 21%;
+left: 51%;
+background-repeat: no-repeat;
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.00s ease-out;
+	
+}
+#thing-icon-0{
+z-index: -2 !important;
+
+}
+.thing.bigButton:hover, .thing-icon:hover {
+background-repeat: no-repeat;
+    transform: scale(1);
+    transition: transform 0.00s ease-out;
+    transition: transform 0.00s ease-in;
+	
+	
+}
+ 
+#game.filtersOn .shadowed {
+    filter: drop-shadow(0px 0px 0px rgba(0,0,0,0.0));
+}
+ 
+.wobble {
+    animation: wobble 1s;
+    transform: scale(1);
+    animation-duration: 5s;
+    transition: transform 5.00s ease-out;
+    transition: transform 0.00s ease-in;
+}
+ 
+@keyframes wobble {
+0% {
+    opacity: 0.7;
+    transform: scale(1.3);
+}
+10% {
+    opacity: 1;
+    transform: scale(1.3);
+}
+100%
+    opacity: 1;
+    transform: scale(1);
+}
+}
+ 
+.thing.bigButton .thing-icon{transform:scale(1);}
+.thing.bigButton:hover .thing-icon{transform:scale(1);}
+.thing.bigButton:active .thing-icon{transform:scale(1);}
+
+div {
+    display: visible !important;
+}
+
+#bulkDisplay {
+    position: relative;
+    top: 0px;
+    margin: 0px 0px 0px 0px;
+    margin-top: 5px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+	visibility: visible !important;
+	
+	text-align: right;
+}
+
+
+.box-bit-content{
+
+display: inline !important;
+}
+
+div#bulkDisplay.box-bit {
+float: right;
+margin-right: auto;
+margin-left: auto;
+
+}
+
+.popup {
+    position: relative;
+	left: 50%;
+	top: 50%;
+	width: 30%;
+    pointer-events: auto;
+    transition: opacity 0.15s,left 0.15s,top 0.15s;
+    opacity: 0;
+}
+.box{
+margin: 0px !important;
+padding: 0px !important;
+}
+
+#fpsGraph {
+    background: #333;
+    color: #93f8ff33;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    padding: 3px;
+    width: 128px;
+    height: 64px;
+    z-index: 10000000;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+
+
+#box-upgrades::-webkit-scrollbar, #box-buildings::-webkit-scrollbar, #box-upgrades2::-webkit-scrollbar, #box-buildings2::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+#box-upgrades, #box-buildings, #box-upgrades2, #box-buildings2{
+    top: 41px !important;
+	overflow-y: auto !important;
+}
+
+#box-upgrades{
+width: 25%;
+}
+
+
+
+.outFrame #game {
+    right: 0% !important;
+    bottom: 0px;
+}
+div#bulkDisplay.box-bit
+{
+
+}
+#box-store{
+
+top: 0px !important;
+}
+
+#box-buildings2Header{
+
+right:0%;
+
+
+}
+#box-upgrades2Header{
+
+right:25%;
+
+
+}
+#box-upgradesHeader{
+
+right:50%;
+
+
+}
+#box-buildingsHeader{
+
+right:75%;
+
+
+}
+
+#box-buildings2Header, #box-upgrades2Header, #box-upgradesHeader, #box-buildingsHeader{
+top: 0px;
+position:absolute;
+width: 25%;
+height: 40px;
+}
+
+#toasts {
+position: absolute !important;
+right: 72% !important;
+
+}
+#fpsCounter, #fpsGraph{
+position: absolute !important;
+bottom: 0px !important;
+left: 0px !important;
+width: 128px !important;
+height: 64px !important;
+}
+
+#thing-8{
+position: absolute !important;
+top: -39vh;
+font-size: 2.8vh;
+left: 0.2vw;
+color: #ffffff44;
+background-color: #00000000;
+background:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 0%);
+}
+
+#thing-text-8{
+font-weight: 900 !important;
+}
+
+#thing-9{
+position: absolute !important;
+top: -37vh;
+font-size: 1.8vh;
+left: 0.2vw;
+color: #93f8ff44;
+background-color: #00000000;
+background:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 0%);
+
+}
+
+#log::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+#logOuter{
+border-style: solid !important;
+border-radius: 10% !important;
+border-color: #FFFFFF !important;
+}
+#logInner{
+display: flex;
+flex-direction: column;
+width: 20vw !important;
+padding: 5%;
+font-family: 'Courier Prime', monospace !important;
+color: #FFFFFF;
+overflow:auto;
+}
+#box-log{
+border-style: solid !important;
+border-radius: 10% !important;
+border: 1px;
+border-color: #FFFFFF !important;
+background-color: #002130;
+}
+.log{
+width: 100% !important;
+opacity: 50% !important;
+top: 81% !important;
+left: 4% !important;
+height: 12% !important;
+width: 20% !important;
+}
+
+#thing-text-1, #thing-text-2, #thing-text-3, #thing-text-4{
+
+}
+
+#box-res{
+}
+
+#thing-icon-1, #thing-icon-2, #thing-icon-3, #thing-icon-4{
+
+
+}
+#thing-1, #thing-2, #thing-3, #thing-4{
+
+}
+
+img{object-fit: contain !important;}
+
+#box-things-sortup, #box-things-sortup2, #box-things-Upgrades, #box-things-upgrades2  /*if necessary, change this to the name of the box containing your upgrades. it should start with "box-things" and you can use inspect element to find it*/
+{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center; /*you can change this to "flex-start" if you want upgrades aligned to the left*/
+	flex-direction: column-reverse;
+}
+
+#box-things-Buildings, #box-things-buildings2{
+	display:flex;
+    flex-wrap:wrap;
+    justify-content:center; /*you can change this to "flex-start" if you want upgrades aligned to the left*/
+
+	flex-direction: column-reverse;
+}
+
+.tag-sortup, .tag-sortup2, .building, .thing-77, .upgrade2.notOwned, .upgrade2.cantAfford{
+    order:3;
+}
+.upgrade.notOwned {
+    order:2;
+}
+.upgrade.owned, .upgrade2.owned
+{
+    order:1;
+}#tooltip{
+
+width: 38em;
+
+
+}
