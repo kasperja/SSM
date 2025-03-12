@@ -1,0 +1,2195 @@
+Let's make a game!
+	name:Space Station Manager
+	by:kasperja
+	desc:Manage your station.<//>Click your way to trade with the universe!</><//><b>Credits:</b><.>Sprite parts: Space Ship & Mech Construction Kit 2 by Skorpio<.>Programming assistance: TrueWolves<.>Dynamic Tooltips: MageKing17</><//><b>Bulk Buying:</b><.>Hold <b>Shift</b> to buy 50 of a Ship or Outpost each time.
+	created:11/12/2021
+	updated:28/3/2024
+	version:3.0
+
+Settings
+	background:https://raw.githubusercontent.com/kasperja/SSM/main/TRYBh3Y.jpg
+	building cost increase:110%
+	building cost refund:50%
+
+	spritesheet:icons, 48 by 48, https://raw.githubusercontent.com/kasperja/SSM/main/SpriteCrystalsEC2.png
+
+	stylesheet:https://raw.githubusercontent.com/kasperja/SSM/refs/heads/main/SSM3-2-CSS.txt
+
+	no particles
+	no bulk particles
+
+Layout
+	*main
+		contains:res, buttons, BulkDisplay
+		*res
+			icons:show
+			contains:Resources
+			class:fullWidth
+			tooltip origin:bottom
+		*buttons
+			contains:Buttons
+	*store
+		contains:buildings, buildings2, upgrades, upgrades2, buildingsHeader, buildings2Header, upgradesHeader, upgrades2Header
+		*buildings
+			contains:Buildings
+			tooltip origin:left
+		*buildingsHeader
+			header:Shipyard
+		*buildings2
+			contains:tag:sortup2
+			contains:tag:buildings2
+			tooltip origin:left
+		*buildings2Header
+			header:Outposts
+		*upgrades
+			tooltip origin:left
+			contains:tag:sortup
+			contains:Upgrades
+			contains:tag:upgrades
+		*upgradesHeader
+			header:Upgrades
+		*upgrades2
+			tooltip origin:left
+			contains:tag:upgrades2
+		*upgrades2Header
+			header:Facilities
+		*log
+			contains:Log
+			class:log
+
+
+Buttons
+	*bunnyButton|tradeButton
+		name:Trade
+		desc:Trade to earn Alz.<//><b>Stats:</b><.>Station Level <b>[slvl]</b><.>Uber Level <b>[ulvl]</b><.>Total ships owned : <b>[totalShips]</b><.>Total outposts owned : <b>[totalPlanets]</b>
+		on start:log Welcome to </#></><t>Space Station Manager</#> <//> Game version: 3.0</#>
+		on load:log Welcome to </#></><t>Space Station Manager</#> <//> Game version: 3.0</#>
+		on load:log Game loaded.
+		on click:anim icon wobble
+		on click:yield 1 alz
+		on click:yield 1 talz
+		on click:
+			if (have blackMarket and chance(1%))
+				yield 1 spaceCrystal
+				yield 1 tsc
+			end
+		end
+		icon:https://raw.githubusercontent.com/kasperja/SSM/main/ZZnnx71%20-%20Imgur.gif
+
+		no text
+		class:bigButton
+		icon class:shadowed
+		tooltip origin:bottom
+		tooltip class:red
+
+Includes
+	*include shipText %low %high
+		text:[?(this!=1)|[p:this]|[n:this]] [?(alienTech >= [%low] and alienTech < [%high])|MK2][?(alienTech >= [%high])|MK3] : [this]
+	*include planetText %low %high
+		text:[?(alienTech >= [%low] and alienTech < [%high])|Adv.][?(alienTech >= [%high])|Prime] [?(this!=1)|[p:this]|[n:this]] : [this]
+	*include alzMult %ship %tech %tech2
+			if (alienTech >= [%tech])
+				multiply alz yield of [%ship] by 2
+				multiply talz yield of [%ship] by 2
+				multiply [%ship]Alz yield of [%ship] by 2
+				multiply [%ship]AlzDO yield of [%ship] by 2
+				multiply [%ship]AlzT yield of [%ship] by 2
+			end
+			if (alienTech >= [%tech2])
+				multiply alz yield of [%ship] by 2
+				multiply talz yield of [%ship] by 2
+				multiply [%ship]Alz yield of [%ship] by 2
+				multiply [%ship]AlzDO yield of [%ship] by 2
+				multiply [%ship]AlzT yield of [%ship] by 2
+			end
+	*include scMult %ship %tech %tech2
+			if (alienTech >= [%tech])
+				multiply spaceCrystal yield of [%ship] by 1.5
+				multiply tsc yield of [%ship] by 1.5
+				multiply [%ship]SC yield of [%ship] by 1.5
+				multiply [%ship]SCDO yield of [%ship] by 1.5
+				multiply [%ship]SCT yield of [%ship] by 1.5
+			end
+			if (alienTech >= [%tech2])
+				multiply spaceCrystal yield of [%ship] by 1.5
+				multiply tsc yield of [%ship] by 1.5
+				multiply [%ship]SC yield of [%ship] by 1.5
+				multiply [%ship]SCDO yield of [%ship] by 1.5
+				multiply [%ship]SCT yield of [%ship] by 1.5
+			end
+	*include doubleMult %ship %tech %tech2
+			if (alienTech >= [%tech])
+				multiply alz yield of [%ship] by 2
+				multiply talz yield of [%ship] by 2
+				multiply [%ship]Alz yield of [%ship] by 2
+				multiply [%ship]AlzDO yield of [%ship] by 2
+				multiply [%ship]AlzT yield of [%ship] by 2
+				multiply spaceCrystal yield of [%ship] by 1.5
+				multiply tsc yield of [%ship] by 1.5
+				multiply [%ship]SC yield of [%ship] by 1.5
+				multiply [%ship]SCDO yield of [%ship] by 1.5
+				multiply [%ship]SCT yield of [%ship] by 1.5
+			end
+			if (alienTech >= [%tech2])
+				multiply alz yield of [%ship] by 2
+				multiply talz yield of [%ship] by 2
+				multiply [%ship]Alz yield of [%ship] by 2
+				multiply [%ship]AlzDO yield of [%ship] by 2
+				multiply [%ship]AlzT yield of [%ship] by 2
+				multiply spaceCrystal yield of [%ship] by 1.5
+				multiply tsc yield of [%ship] by 1.5
+				multiply [%ship]SC yield of [%ship] by 1.5
+				multiply [%ship]SCDO yield of [%ship] by 1.5
+				multiply [%ship]SCT yield of [%ship] by 1.5
+			end
+
+	*include alzCost %ship %cost
+		*[%ship]Cost
+			hidden
+			is always:pow(1.1, [%ship])*[%cost]
+
+	*include scCost %ship %cost
+		*[%ship]SCCost
+			hidden
+			is always:pow(1.1, [%ship])*[%cost]
+
+	*include doubleCost %ship %alzCost %scCost
+		*[%ship]Cost
+			hidden
+			is always:pow(1.1, [%ship])*[%alzCost]
+
+		*[%ship]SCCost
+			hidden
+			is always:pow(1.1, [%ship])*[%scCost]
+
+	*include alzResources %ship
+		*[%ship]Alz
+			hidden
+			tag:Alz
+
+		*[%ship]AlzPS
+			hidden
+
+		*[%ship]AlzDO
+			hidden
+			tag:prestige Alz
+
+		*[%ship]AlzT
+			hidden
+			tag:prestige prestige2 Alz
+
+	*include scResources %ship
+		*[%ship]SC
+			hidden
+			tag:SC
+
+		*[%ship]SCPS
+			hidden
+
+		*[%ship]SCDO
+			hidden
+			tag:prestige SC
+
+		*[%ship]SCT
+			hidden
+			tag:prestige prestige2 SC
+
+	*include doubleResources %ship
+		*[%ship]Alz
+			hidden
+			tag:Alz
+
+		*[%ship]AlzPS
+			hidden
+
+		*[%ship]AlzDO
+			hidden
+			tag:prestige Alz
+
+		*[%ship]AlzT
+			hidden
+			tag:prestige prestige2 Alz
+
+		*[%ship]SC
+			hidden
+			tag:SC
+
+		*[%ship]SCPS
+			hidden
+
+		*[%ship]SCDO
+			hidden
+			tag:prestige SC
+
+		*[%ship]SCT
+			hidden
+			tag:prestige prestige2 SC
+
+	*include alzCostDesc %ship :<.>Adjusted Cost : <b>[round([%ship]Cost/[%ship]AlzPS)] Alz</b>
+	*include scCostDesc %ship :<.>Adjusted Cost : <b>[round([%ship]SCCost/[%ship]SCPS)] Space Crystals</b>
+	*include doubleCostDesc %ship :<.>Adjusted Cost : <b>[round([%ship]Cost/[%ship]AlzPS)] Alz</b>, <b>[round([%ship]SCCost/[%ship]SCPS)] Space Crystals</b>
+	*include descriptionAlz %ship :<//><b>Effect:</b><.>Produces <b>[(round([%ship]AlzPS*10)/10)][?(round([%ship]AlzPS*10)<10000 and round([%ship]AlzPS*10)%10>=1)|.[(round([%ship]AlzPS*10)%10)]] Alz per second</b>.[?this|<//><b>Production:</b><.>Actual Alz/s per [n:this] : <b>[round([%ship]Alz:ps*10/this)/10]][?(this and round([%ship]Alz:ps*10/this)<10000 and round([%ship]Alz:ps*10/this)%10>=1)|.[round([%ship]Alz:ps*10/this)%10]][?this|</b><.>Total Alz/s by all [p:this] : <b>[round([%ship]Alz:ps*10)/10]][?(this and round([%ship]Alz:ps*10)<10000 and round([%ship]Alz:ps*10)%10>=1)|.[round([%ship]Alz:ps*10)%10]][?this|</b> ([round(([%ship]Alz:ps*1000)/alz:ps)/10]][?this and (round(([%ship]Alz:ps*1000)/alz:ps)%10>=1)|.[round(([%ship]Alz:ps*1000)/alz:ps)%10]][?this|%)][?[%ship]AlzT|<//><b>Statistics:</b>][?([%ship]Alz and (taa or prestigio2))|<.>Total Alz earned this run : <b>[[%ship]Alz]</b>][?([%ship]AlzDO and taa and prestigio2)|<.>Total Alz earned this Data Orb : <b>[[%ship]AlzDO]</b>][?[%ship]AlzT|<.>Total Alz earned : <b>[[%ship]AlzT]</b>]
+	*include descriptionSC %ship %interval="per second" :<//><b>Effect:</b><.>Produces <b>[(round([%ship]SCPS*100)/100)][?(round([%ship]SCPS*100)<100000 and round([%ship]SCPS*100)%100>=1)|.[((round([%ship]SCPS*100)/10)%10)]][?(round([%ship]SCPS*100)<100000 and round([%ship]SCPS*100)%10>=1)|[(round([%ship]SCPS*100)%10)]] Space Crystal[?((round([%ship]SCPS*100)/100) != 1)|s] [%interval]</b>.[?this|<//><b>Production:</b><.>Total Space Crystals/s by all [p:this] : <b>[round([%ship]SC:ps*10)/10]][?(this and round([%ship]SC:ps*10)<10000 and round([%ship]SC:ps*10)%10>=1)|.[round([%ship]SC:ps*10)%10]][?this|</b> ([round(([%ship]SC:ps*1000)/spaceCrystal:ps)/10]][?this and (round(([%ship]SC:ps*1000)/spaceCrystal:ps)%10>=1)|.[round(([%ship]SC:ps*1000)/spaceCrystal:ps)%10]][?this|%)][?[%ship]SCT|<//><b>Statistics:</b>][?([%ship]SC and (taa or prestigio2))|<.>Total Space Crystals earned this run : <b>[[%ship]SC]</b>][?([%ship]SCDO and taa and prestigio2)|<.>Total Space Crystals earned this Data Orb : <b>[[%ship]SCDO]</b>][?[%ship]SCT|<.>Total Space Crystals earned : <b>[[%ship]SCT]</b>]
+	*include descriptionDouble %ship %interval="per second" :<//><b>Effect:</b><.>Produces <b>[(round([%ship]AlzPS*10)/10)][?(round([%ship]AlzPS*10)<10000 and round([%ship]AlzPS*10)%10>=1)|.[(round([%ship]AlzPS*10)%10)]] Alz per second</b>.<.>Produces <b>[(round([%ship]SCPS*100)/100)][?(round([%ship]SCPS*100)<100000 and round([%ship]SCPS*100)%100>=1)|.[((round([%ship]SCPS*100)/10)%10)]][?(round([%ship]SCPS*100)<100000 and round([%ship]SCPS*100)%10>=1)|[(round([%ship]SCPS*100)%10)]] Space Crystal[?((round([%ship]SCPS*100)/100) != 1)|s] [%interval]</b>.[?this|<//><b>Production:</b><.>Actual Alz/s per [n:this] : <b>[round([%ship]Alz:ps*10/this)/10]][?(this and round([%ship]Alz:ps*10/this)<10000 and round([%ship]Alz:ps*10/this)%10>=1)|.[round([%ship]Alz:ps*10/this)%10]][?this|</b><.>Total Alz/s by all [p:this] : <b>[round([%ship]Alz:ps*10)/10]][?(this and round([%ship]Alz:ps*10)<10000 and round([%ship]Alz:ps*10)%10>=1)|.[round([%ship]Alz:ps*10)%10]][?this|</b> ([round(([%ship]Alz:ps*1000)/alz:ps)/10]][?this and (round(([%ship]Alz:ps*1000)/alz:ps)%10>=1)|.[round(([%ship]Alz:ps*1000)/alz:ps)%10]][?this|%)<.>Total Space Crystals/s by all [p:this] : <b>[round([%ship]SC:ps*10)/10]][?(this and round([%ship]SC:ps*10)<10000 and round([%ship]SC:ps*10)%10>=1)|.[round([%ship]SC:ps*10)%10]][?this|</b> ([round(([%ship]SC:ps*1000)/spaceCrystal:ps)/10]][?this and (round(([%ship]SC:ps*1000)/spaceCrystal:ps)%10>=1)|.[round(([%ship]SC:ps*1000)/spaceCrystal:ps)%10]][?this|%)][?([%ship]AlzT or [%ship]SCT)|<//><b>Statistics:</b>][?([%ship]Alz and (taa or prestigio2))|<.>Total Alz earned this run : <b>[[%ship]Alz]</b>][?([%ship]AlzDO and taa and prestigio2)|<.>Total Alz earned this Data Orb : <b>[[%ship]AlzDO]</b>][?[%ship]AlzT|<.>Total Alz earned : <b>[[%ship]AlzT]</b>][?([%ship]SC and (taa or prestigio2))|<.>Total Space Crystals earned this run : <b>[[%ship]SC]</b>][?([%ship]SCDO and taa and prestigio2)|<.>Total Space Crystals earned this Data Orb : <b>[[%ship]SCDO]</b>][?[%ship]SCT|<.>Total Space Crystals earned : <b>[[%ship]SCT]</b>]
+	//Made an inclusion template for the sake of centralizing them all.
+	*include mammothDescription :<.>Adjusted Cost : <b>[round(mammothCost/mammothAlzPS)] Alz</b>[?mammothDrones|, <b>[round(mammothSCCost/mammothSCPS)] Space Crystals</b>]<//><b>Effect:</b><.>Produces <b>[(round(mammothAlzPS*10)/10)][?(round(mammothAlzPS*10)<10000 and round(mammothAlzPS*10)%10>=1)|.[(round(mammothAlzPS*10)%10)]] Alz per second</b>.[?mammothDrones|<.>Produces <b>[(round(mammothSCPS*100)/100)]][?(mammothDrones and round(mammothSCPS*100)<100000 and round(mammothSCPS*100)%100>=1)|.[((round(mammothSCPS*100)/10)%10)]][?(mammothDrones and round(mammothSCPS*100)<100000 and round(mammothSCPS*100)%10>=1)|[(round(mammothSCPS*100)%10)]][?mammothDrones| Space Crystal][?(mammothDrones and (round(mammothSCPS*100)/100) != 1)|s][?mammothDrones| per minute</b>.][?this|<//><b>Production:</b><.>Actual Alz/s per [n:this] : <b>[round(mammothAlz:ps*10/this)/10]][?(this and round(mammothAlz:ps*10/this)<10000 and round(mammothAlz:ps*10/this)%10>=1)|.[round(mammothAlz:ps*10/this)%10]][?this|</b><.>Total Alz/s by all [p:this] : <b>[round(mammothAlz:ps*10)/10]][?(this and round(mammothAlz:ps*10)<10000 and round(mammothAlz:ps*10)%10>=1)|.[round(mammothAlz:ps*10)%10]][?this|</b> ([round((mammothAlz:ps*1000)/alz:ps)/10]][?this and (round((mammothAlz:ps*1000)/alz:ps)%10>=1)|.[round((mammothAlz:ps*1000)/alz:ps)%10]][?this|%)][?(this and mammothSC)|<.>Total Space Crystals/s by all [p:this] : <b>[(round(mammothSC:ps*10)/10)]][?(this and mammothSC and round(mammothSC:ps*10)<10000 and round(mammothSC:ps*10)%10>=1)|.[round(mammothSC:ps*10)%10]][?(this and mammothSC)|</b> ([round((mammothSC:ps*1000)/spaceCrystal:ps)/10]][?this and mammothSC and (round((mammothSC:ps*1000)/spaceCrystal:ps)%10>=1)|.[round((mammothSC:ps*1000)/spaceCrystal:ps)%10]][?(this and mammothSC)|%)][?(mammothAlzT or mammothSCT)|<//><b>Statistics:</b>][?(mammothAlz and (taa or prestigio2))|<.>Total Alz earned this run : <b>[mammothAlz]</b>][?(mammothAlzDO and taa and prestigio2)|<.>Total Alz earned this Data Orb : <b>[mammothAlzDO]</b>][?mammothAlzT|<.>Total Alz earned : <b>[mammothAlzT]</b>][?(mammothSC and (taa or prestigio2))|<.>Total Space Crystals earned this run : <b>[mammothSC]</b>][?(mammothSCDO and taa and prestigio2)|<.>Total Space Crystals earned this Data Orb : <b>[mammothSCDO]</b>][?mammothSCT|<.>Total Space Crystals earned : <b>[mammothSCT]</b>]
+	*include yieldAlz %amt %for
+		on tick:yield [%amt] alz
+		on tick:yield [%amt] talz
+		on tick:yield [%amt] [%for]Alz
+		on tick:yield [%amt] [%for]AlzDO
+		on tick:yield [%amt] [%for]AlzT
+	*include yieldSC %amt %for
+		on tick:yield [%amt] spaceCrystals
+		on tick:yield [%amt] tsc
+		on tick:yield [%amt] [%for]SC
+		on tick:yield [%amt] [%for]SCDO
+		on tick:yield [%amt] [%for]SCT
+
+Resources
+	*bunny|alz
+		name:Alz
+		desc:This is your Alz; trade and upgrade to earn Alz.[?(taa or prestigio2)|<.>Total earned in this run : <b>[talz]</b>]
+		icon:icons[0,0]
+		class:noBackground
+		tag:Alz
+		show earned
+
+	*goldenCarrot|spaceCrystal|spaceCrystals
+		name:Space Crystal|Space Crystals
+		desc:These crystals are terribly rare![?prestigio2|<.>Earned since last Data Orb : <b>[tsc]</b>]
+		icon:icons[0,1]
+		class:noBackground
+		show earned
+		tag:SC
+		hidden when 0
+
+	*prestigio
+		name:Alien Artifact|Alien Artifacts
+		desc:Obtain Alien Artifacts when you reset the game.[?prestigio2|<.>Earned since last Data Orb : <b>[taa]</b>]<.>Max Alien Technology lvl reached : <b>[alienTech:max]</b><.>Max A.T. Bounty Hunter lvl reached : <b>[BountyAI:max]</b>
+		icon:icons[0,8]
+		class:noBackground
+		show earned
+		tag:prestige
+		hidden when 0
+
+	*prestigio2
+		name:Data Orb|Data Orbs
+		desc:Shows how many times you have completed the game.
+		icon:icons[0,10]
+		class:noBackground
+		show earned
+		tag:prestige prestige2
+		hidden when 0
+
+	*totalShips
+   		hidden
+   		is always:(drones+merchants+haulers+transporters+freighters+specCargos+orcas+mammoths+stations+polices+bombers+ionfrigates+battlecruisers+Superfreighters+Vanguards+(titan>=100))
+
+	*totalPlanets
+   		hidden
+   		is always:(moons+iceWorlds+deserts+volcanoes+gasGiants+waterWorlds+asteroids+cityPlanets+acidWorlds+earthLikes+superEarths+roguePlanets)
+
+	// TALZ = Total Alz. Can't just use alz:earned, because then they'd carry through Alien Artifact prestiges.
+	*talz
+		hidden
+		tag:Alz
+
+	*slvl
+		name:Station Level
+		text:Station Level [slvl]
+		is always:(pow(talz,0.041))*1.47
+		class:slvl
+		no tooltip
+
+	*ulvl
+		name:Uber Level
+		text:Uber Level [ulvl]
+		is always:(pow(((alz:max)),0.041)*1.47)
+		class:ulvl
+		no tooltip
+		tag:prestige prestige2
+
+	// This allows talz to work for saves from before it was added.
+	*chk
+		on start:
+			if (chk > 0)
+			else
+				talz=alz:earned
+				chk=1
+			end
+			do resetps with tag:PS
+		end
+		on load:
+			if (chk > 0)
+			else
+				talz=alz:earned
+				chk=1
+			end
+			do resetps with tag:PS
+		end
+		on resetps:
+			//Reset "per second" resources.
+			droneAlzPS=0.1
+			merchantAlzPS=1
+			haulerAlzPS=10
+			transporterAlzPS=50
+			//Actually measuring SC "per hour" because it's unlikely to reach measurable values at "per second"
+			transporterSCPS=1
+			freighterAlzPS=500
+			specCargoAlzPS=400
+			//Similarly, this measures "per minute"
+			specCargoSCPS=0.1
+			orcaAlzPS=1400
+			mammothAlzPS=4000
+			//This one is also "per minute"
+			//For "every 100 seconds", make it 1.
+			mammothSCPS=0.6
+			moonAlzPS=6000
+			iceWorldSCPS=1
+			StationAlzPS=16000
+			desertAlzPS=100000
+			//"Every 5 seconds"
+			desertSCPS=1
+			volcanoAlzPS=50000
+			//"Every 10 seconds"
+			//Could go with "per second", except the full value wouldn't display when Prime
+			volcanoSCPS=1
+			PoliceAlzPS=100000
+			gasGiantAlzPS=200000
+			BomberAlzPS=400000
+			IonfrigateAlzPS=1600000
+			IonfrigateSCPS=1
+			waterWorldAlzPS=300000
+			waterWorldSCPS=1
+			asteroidAlzPS=600000
+			//"Every 2 seconds"
+			asteroidSCPS=1
+			BattlecruiserAlzPS=8000000
+			cityPlanetAlzPS=1000000
+			//"Every 2 seconds"
+			cityPlanetSCPS=1
+			acidWorldAlzPS=16000000
+			earthLikeAlzPS=20000000
+			earthLikeSCPS=10
+			SuperfreighterAlzPS=50000000
+			SuperfreighterSCPS=5
+			superEarthAlzPS=80000000
+			superEarthSCPS=20
+			roguePlanetAlzPS=200000000
+			roguePlanetSCPS=160
+			VanguardAlzPS=100000000
+			VanguardSCPS=400
+		end
+		hidden
+		tag:prestige prestige2 PS
+
+	// TSC = Total Space Crystals. Can't just use spaceCrystals:earned, because then they'd carry through Data Orb prestiges.
+	*tsc
+		hidden
+		tag:prestige SC
+
+	// TAA = Total Alien Artifacts. See above for why a separate resource is used.
+	*taa
+		hidden
+		tag:prestige
+
+	*schk
+		passive:
+			if (slvl>=(schkt+1))
+				log <b><#FFFFFF>Station Level [slvl] reached!</b>
+				schk=0
+				schkt = floor(slvl)
+			end
+		end
+		hidden
+
+	*schkt
+		on load:
+			schkt = floor(slvl)
+		end
+		on start:
+			schkt = floor(slvl)
+		end
+		hidden
+
+	*uchk
+		passive:
+			if (ulvl>=(uchkt+1))
+				log <b><#FFFFFF>Uber Level [ulvl] reached!</b>
+				uchk=0
+				uchkt = floor(ulvl)
+			end
+		end
+		tag:prestige prestige2
+		hidden
+
+	*uchkt
+		on load:
+			uchkt = floor(ulvl)
+		end
+		on start:
+			uchkt = floor(ulvl)
+		end
+		tag:prestige prestige2
+		hidden
+
+	// Can't just use alienTech for this, because then the effects would be multiplied by your level.
+	// Resource "on tick" blocks are always executed and never scaled, making it perfect for this.
+	*alienMultiplier
+		hidden
+		on tick:
+			[include alzMult %ship="drone" %tech="1" %tech2="28"]
+			[include alzMult %ship="merchant" %tech="2" %tech2="29"]
+			[include alzMult %ship="hauler" %tech="3" %tech2="30"]
+			[include doubleMult %ship="transporter" %tech="4" %tech2="31"]
+			[include alzMult %ship="freighter" %tech="5" %tech2="32"]
+			[include doubleMult %ship="specCargo" %tech="6" %tech2="33"]
+			[include alzMult %ship="orca" %tech="7" %tech2="34"]
+			[include doubleMult %ship="mammoth" %tech="8" %tech2="35"]
+			[include alzMult %ship="moon" %tech="9" %tech2="36"]
+			[include scMult %ship="iceWorld" %tech="10" %tech2="37"]
+			[include alzMult %ship="Station" %tech="11" %tech2="38"]
+			[include doubleMult %ship="desert" %tech="12" %tech2="39"]
+			[include doubleMult %ship="volcano" %tech="13" %tech2="40"]
+			[include alzMult %ship="Police" %tech="14" %tech2="41"]
+			[include alzMult %ship="gasGiant" %tech="15" %tech2="42"]
+			[include alzMult %ship="Bomber" %tech="16" %tech2="43"]
+			[include doubleMult %ship="Ionfrigate" %tech="17" %tech2="44"]
+			[include doubleMult %ship="waterWorld" %tech="18" %tech2="45"]
+			[include doubleMult %ship="asteroid" %tech="19" %tech2="46"]
+			[include alzMult %ship="Battlecruiser" %tech="20" %tech2="47"]
+			[include doubleMult %ship="cityPlanet" %tech="21" %tech2="48"]
+			[include alzMult %ship="acidWorld" %tech="22" %tech2="49"]
+			[include doubleMult %ship="earthLike" %tech="23" %tech2="50"]
+			[include doubleMult %ship="Superfreighter" %tech="24" %tech2="51"]
+			[include doubleMult %ship="superEarth" %tech="25" %tech2="52"]
+			[include doubleMult %ship="roguePlanet" %tech="26" %tech2="53"]
+			[include doubleMult %ship="Vanguard" %tech="27" %tech2="54"]
+		end
+
+	[include alzCost %ship="drone" %cost="30"]
+	[include alzResources %ship="drone"]
+	[include alzCost %ship="merchant" %cost="1000"]
+	[include alzResources %ship="merchant"]
+	[include alzCost %ship="hauler" %cost="10000"]
+	[include alzResources %ship="hauler"]
+	[include alzCost %ship="transporter" %cost="20000"]
+	[include doubleResources %ship="transporter"]
+	[include alzCost %ship="freighter" %cost="700000"]
+	[include alzResources %ship="freighter"]
+	[include doubleCost %ship="specCargo" %alzCost="4000000" %scCost="120"]
+	[include doubleResources %ship="specCargo"]
+	[include alzCost %ship="orca" %cost="60000000"]
+	[include alzResources %ship="orca"]
+	[include doubleCost %ship="mammoth" %alzCost="140000000" %scCost="1920"]
+	[include doubleResources %ship="mammoth"]
+	[include alzCost %ship="moon" %cost="140000000"]
+	[include alzResources %ship="moon"]
+	[include scCost %ship="iceWorld" %cost="1000"]
+	[include scResources %ship="iceWorld"]
+	[include alzCost %ship="Station" %cost="400000000"]
+	[include alzResources %ship="Station"]
+	[include alzCost %ship="desert" %cost="600000000"]
+	[include doubleResources %ship="desert"]
+	[include doubleCost %ship="volcano" %alzCost="800000000" %scCost="50000"]
+	[include doubleResources %ship="volcano"]
+	[include alzCost %ship="Police" %cost="1600000000"]
+	[include alzResources %ship="Police"]
+	[include alzCost %ship="gasGiant" %cost="2000000000"]
+	[include alzResources %ship="gasGiant"]
+	[include alzCost %ship="Bomber" %cost="5000000000"]
+	[include alzResources %ship="Bomber"]
+	[include doubleCost %ship="Ionfrigate" %alzCost="20000000000" %scCost="1000"]
+	[include doubleResources %ship="Ionfrigate"]
+	[include doubleCost %ship="waterWorld" %alzCost="20000000000" %scCost="4000"]
+	[include doubleResources %ship="waterWorld"]
+	[include doubleCost %ship="asteroid" %alzCost="35000000000" %scCost="80000"]
+	[include doubleResources %ship="asteroid"]
+	[include alzCost %ship="Battlecruiser" %cost="200000000000"]
+	[include alzResources %ship="Battlecruiser"]
+	[include doubleCost %ship="cityPlanet" %alzCost="140000000" %scCost="200000"]
+	[include doubleResources %ship="cityPlanet"]
+	[include alzResources %ship="acidWorld"]
+	[include doubleCost %ship="earthLike" %alzCost="400000000000" %scCost="900000"]
+	[include doubleResources %ship="earthLike"]
+	[include doubleCost %ship="Superfreighter" %alzCost="1000000000000" %scCost="50000"]
+	[include doubleResources %ship="Superfreighter"]
+	[include doubleCost %ship="superEarth" %alzCost="1000000000000" %scCost="2000000"]
+	[include doubleResources %ship="superEarth"]
+	[include alzCost %ship="roguePlanet" %cost="5000000000000"]
+	[include doubleResources %ship="roguePlanet"]
+	[include doubleCost %ship="Vanguard" %alzCost="2000000000000" %scCost="1000000"]
+	[include doubleResources %ship="Vanguard"]
+
+
+Shinies
+	*luckyBunny|bountyHunter
+		movement:onRight moveLeft
+		frequency: 60
+		frequency variation:30
+		req:7000 talz
+		icon:https://raw.githubusercontent.com/kasperja/SSM/main/t8RoQYb.png
+		class:bigButton
+		on click:
+			$boost=1
+			if (have pirateHunters) $boost=4
+			if (chance(50%))
+				//get at least 7, or between 0.5 and 3 minutes of our alz production
+				$amount=(max(7,random(alz:ps*30,alz:ps*180))*$boost)/max(pow(10,BountyAI),1)
+				toast The bounty hunter grants you<//><b>[$amount] Alz</b>.
+				log The bounty hunter grants you <b>[$amount] Alz</b>.
+				yield $amount alz
+				yield $amount talz
+			else
+				// Consolidated the two spaceCrystal branches into one.
+				//get at least 7, or between 0.5 and 3 minutes of our space crystal production
+				$amount=(max(7,random(spaceCrystals:ps*30,spaceCrystals:ps*180))*$boost)/max(pow(10,BountyAI),1)
+				if (no bar) $amount=1
+				toast The bounty hunter grants you<//><b>[$amount] Space Crystal[s?$amount]</b>!
+				log The bounty hunter grants you <b>[$amount] Space Crystal[s?$amount]</b>!
+				yield $amount spaceCrystal
+				yield $amount tsc
+			end
+		end
+
+		*psDrones
+			icon:icons[1,0]
+			no click
+			frequency:15
+			frequency variation:30
+			duration:30
+			movement:onRight moveLeft growShrink
+		*psDrones2
+			icon:icons[2,0]
+			no click
+			frequency:15
+			frequency variation:30
+			duration:32
+			movement:onLeft moveRight growShrink
+		*psHaulers
+			icon:icons[1,3]
+			no click
+			frequency:70
+			frequency variation:30
+			duration:34
+			movement:onRight moveLeft growShrink
+		*psHaulers2
+			icon:icons[2,3]
+			no click
+			frequency:60
+			frequency variation:30
+			duration:36
+			movement:onLeft moveRight growShrink
+		*psTransp
+			icon:icons[1,4]
+			no click
+			frequency:170
+			frequency variation:30
+			duration:38
+			movement:onRight moveLeft growShrink
+		*psTransp2
+			icon:icons[2,4]
+			no click
+			frequency:280
+			frequency variation:30
+			duration:40
+			movement:onLeft moveRight growShrink
+		*psFrei
+			icon:icons[1,5]
+			no click
+			frequency:160
+			frequency variation:30
+			duration:42
+			movement:onRight moveLeft growShrink
+		*psFrei2
+			icon:icons[2,5]
+			no click
+			frequency:240
+			frequency variation:30
+			duration:44
+			movement:onLeft moveRight growShrink
+		*psSCS
+			icon:icons[1,6]
+			no click
+			frequency:200
+			frequency variation:30
+			duration:46
+			movement:onRight moveLeft growShrink
+		*psSCS2
+			icon:icons[2,6]
+			no click
+			frequency:430
+			frequency variation:30
+			duration:48
+			movement:onLeft moveRight growShrink
+		*psOrca
+			icon:icons[1,7]
+			no click
+			frequency:460
+			frequency variation:30
+			duration:50
+			movement:onRight moveLeft growShrink
+		*psOrca2
+			icon:icons[2,7]
+			no click
+			frequency:270
+			frequency variation:30
+			duration:51
+			movement:onLeft moveRight growShrink
+		*psMam
+			icon:icons[1,8]
+			no click
+			frequency:520
+			frequency variation:30
+			duration:52
+			movement:onRight moveLeft growShrink
+		*psMam2
+			icon:icons[2,8]
+			no click
+			frequency:340
+			frequency variation:30
+			duration:54
+			movement:onLeft moveRight growShrink
+		*psTitan
+			icon:icons[1,15]
+			no click
+			frequency: 1470
+			frequency variation:30
+			duration:70
+			movement:onRight moveLeft growShrink
+		*psTitan2
+			icon:icons[2,15]
+			no click
+			frequency:2480
+			frequency variation:30
+			duration:70
+			movement:onLeft moveRight growShrink
+		*psPS
+			icon:icons[1,9]
+			no click
+			frequency:660
+			frequency variation:30
+			duration:33
+			movement:onRight moveLeft growShrink
+		*psPS2
+			icon:icons[2,9]
+			no click
+			frequency:440
+			frequency variation:30
+			duration:32
+			movement:onLeft moveRight growShrink
+		*psBE
+			icon:icons[1,10]
+			no click
+			frequency:510
+			frequency variation:30
+			duration:32
+			movement:onRight moveLeft growShrink 
+		*psBE2
+			icon:icons[2,10] 
+			no click
+			frequency:700
+			frequency variation:30
+			duration:32
+			movement:onLeft moveRight growShrink 	
+		*psIon
+			icon:icons[1,11] 
+			no click
+			frequency:760
+			frequency variation:30
+			duration:56
+			movement:onRight moveLeft growShrink 
+		*psIon2
+			icon:icons[2,11] 
+			no click
+			frequency:570
+			frequency variation:30
+			duration:56
+			movement:onLeft moveRight growShrink 	
+		*psBC
+			icon:icons[1,12] 
+			no click
+			frequency:620
+			frequency variation:30
+			duration:58
+			movement:onRight moveLeft growShrink 
+		*psBC2
+			icon:icons[2,12] 
+			no click
+			frequency:830
+			frequency variation:30
+			duration:59
+			movement:onLeft moveRight growShrink 	
+		*psSuperF
+			icon:icons[1,13] 
+			no click
+			frequency:880
+			frequency variation:30
+			duration:62
+			movement:onRight moveLeft growShrink 
+		*psSuperF2
+			icon:icons[2,13] 
+			no click
+			frequency:690
+			frequency variation:30
+			duration:63
+			movement:onLeft moveRight growShrink 	
+		*psVG
+			icon:icons[1,14] 
+			no click
+			frequency:740
+			frequency variation:30
+			duration:40
+			movement:onRight moveLeft growShrink 
+		*psVG2
+			icon:icons[2,14] 
+			no click
+			frequency:950
+			frequency variation:30
+			duration:41
+			movement:onLeft moveRight growShrink 	
+		*particleShips
+			icon:icons[1,2] 
+			no click
+			frequency:60
+			frequency variation:30
+			duration:32
+			movement:onRight moveLeft growShrink 
+		*particleShips2
+			icon:icons[2,2] 
+			no click
+			frequency:60
+			frequency variation:30
+			duration:32
+			movement:onLeft moveRight growShrink 
+
+
+Buildings
+	// There is no glow animation in the stylesheet.
+	//*TEMPLATE
+	//	on click:anim glow
+
+	*cage|drone|drones
+		name:Mining Drone|Mining Drones
+		[include shipText %low="1" %high="28"]
+		desc:A tiny asteroid mining drone.[include alzCostDesc %ship="drone"][include descriptionAlz %ship="drone"]
+		icon:icons[6,0]
+		cost:30 alz
+		[include yieldAlz %amt="0.1" %for="drone"]
+		req:20 talz
+
+	*hutch|merchant|merchants
+		name:Merchant Ship|Merchant Ships
+		[include shipText %low="2" %high="29"]
+		desc:A merchant ship can trade with other stations.[include alzCostDesc %ship="merchant"][include descriptionAlz %ship="merchant"]
+		icon:icons[6,1]
+		cost:1000 alz
+		[include yieldAlz %amt="1" %for="merchant"]
+		req:900 talz and airlock
+
+	*coop|hauler|haulers
+		name:Hauler|Haulers
+		[include shipText %low="3" %high="30"]
+		desc:A much larger ship for trade routes.[include alzCostDesc %ship="hauler"][include descriptionAlz %ship="hauler"]
+		icon:icons[6,2]
+		cost:10000 alz
+		[include yieldAlz %amt="10" %for="hauler"]
+		req:20000 talz and (merchants>=1) and airlock
+
+	*pen|transporter|transporters
+		name:Transporter|Transporters
+		[include shipText %low="4" %high="31"]
+		desc:This ship is able to transport people between systems.[include alzCostDesc %ship="transporter"][include descriptionDouble %ship="transporter" %interval="per hour"]
+		icon:icons[6,3]
+		cost:20000 alz
+		[include yieldAlz %amt="50" %for="transporter"]
+		[include yieldSC %amt="0.000277778" %for="transporter"]
+		req:60000 talz and airlock and (merchants>=1)
+
+	*meadow|freighter|freighters
+		name:Freighter|Freighters
+		[include shipText %low="5" %high="32"]
+		desc:A very large transport ship, for transporting huge loads of goods.[include alzCostDesc %ship="freighter"][include descriptionAlz %ship="freighter"]
+		icon:icons[6,4]
+		cost:700000 alz
+		[include yieldAlz %amt="500" %for="freighter"]
+		req:700000 talz and (transporters>=1) and airlock
+
+	*village|specCargo|specCargos
+		name:Special Cargo Ship|Special Cargo Ships
+		[include shipText %low="6" %high="33"]
+		desc:Transports dangerous cargo and hunts for Space Crystals![include doubleCostDesc %ship="specCargo"][include descriptionDouble %ship="specCargo" %interval="per minute"]
+		icon:icons[6,5]
+		cost:4000000 alz, 2 spaceCrystals
+		[include yieldAlz %amt="400" %for="specCargo"]
+		[include yieldSC %amt="0.00167" %for="specCargo"]
+		req:2000000 talz and independenceDay
+
+	*city|orca|orcas
+		name:Orca|Orcas
+		[include shipText %low="7" %high="34"]
+		desc:A ship with the ability to carry both smaller ships and a high number of personel.[include alzCostDesc %ship="orca"][include descriptionAlz %ship="orca"]
+		icon:icons[6,6]
+		cost:60000000 alz, 8 spaceCrystals
+		[include yieldAlz %amt="1400" %for="orca"]
+		req:10000000 talz and independenceDay
+
+	*citadel|mammoth|mammoths
+		name:Mammoth|Mammoths
+		[include shipText %low="8" %high="35"]
+		desc:One of the largest transporters, with ability to build outposts and other stations.[include mammothDescription]
+		icon:icons[6,7]
+		cost:140000000 alz, 32 spaceCrystals
+		[include yieldAlz %amt="4000" %for="mammoth"]
+		on tick:
+			if (have mammothDrones)
+				yield 0.01 spaceCrystal
+				yield 0.01 tsc
+				yield 0.01 mammothSC
+				yield 0.01 mammothSCDO
+				yield 0.01 mammothSCT
+			end
+		end
+		req:50000000 talz and independenceDay and (orcas>=2)
+
+	*fortress|titan
+		name:Titan
+		text:Titan ([this]%)
+		desc:The absolute largest ship, with ability to defend itself and transport huge colonies to populate other planets.<//><b>The Titan is [this]% complete.</b>
+		icon:icons[6,8]
+		cost:600000000 alz, 400 spaceCrystals
+		req:3000000000 talz and independenceDay
+		cost increase:105%
+		limit:100
+
+	*Station|stations
+		name:Station|Stations
+		[include shipText %low="11" %high="38"]
+		desc:A smaller station that trades for you.[include alzCostDesc %ship="Station"][include descriptionAlz %ship="Station"]
+		icon:icons[6,9]
+		cost:400000000 alz
+		[include yieldAlz %amt="16000" %for="Station"]
+		req:3500000000 talz and independenceDay and (mammoths>=2)
+
+	*Police|polices
+		name:Police Squadron|Police Squadrons
+		[include shipText %low="14" %high="41"]
+		desc:A police fleet to protect your trade routes.[include alzCostDesc %ship="Police"][include descriptionAlz %ship="Police"]
+		icon:icons[6,10]
+		cost:1600000000 alz
+		[include yieldAlz %amt="100000" %for="Police"]
+		req:400000000 talz and independenceDay and militaryProtection
+
+	*Bomber|bombers
+		name:Bomber Escadrille|Bomber Escadrilles
+		[include shipText %low="16" %high="43"]
+		desc:Bomb the larger enemy and pirate ships.[include alzCostDesc %ship="Bomber"][include descriptionAlz %ship="Bomber"]
+		icon:icons[6,11]
+		cost:5000000000 alz
+		[include yieldAlz %amt="400000" %for="Bomber"]
+		req:1000000000 talz and independenceDay and militaryProtection
+
+	*Ionfrigate|ionfrigates
+		name:Ion Frigate|Ion Frigates
+		[include shipText %low="17" %high="44"]
+		desc:Can destroy enemy stations and larger ships, and gather Space Crystals from heavy mining.[include doubleCostDesc %ship="Ionfrigate"][include descriptionDouble %ship="Ionfrigate"]
+		icon:icons[6,12]
+		cost:20000000000 alz, 1000 spaceCrystals
+		[include yieldAlz %amt="1600000" %for="Ionfrigate"]
+		[include yieldSC %amt="1" %for="Ionfrigate"]
+		req:independenceDay and militaryProtection and militaryProtection2
+
+	*Battlecruiser|battlecruisers
+		name:Battlecruiser|Battlecruisers
+		[include shipText %low="20" %high="47"]
+		desc:A flying fortress.[include alzCostDesc %ship="Battlecruiser"][include descriptionAlz %ship="Battlecruiser"]
+		icon:icons[6,13]
+		cost:200000000000 alz, 10000 spaceCrystals
+		[include yieldAlz %amt="8000000" %for="Battlecruiser"]
+		req:70000000000 talz and independenceDay and militaryProtection and militaryProtection2
+
+	*Superfreighter|Superfreighters
+		name:Superfreighter|Superfreighters
+		[include shipText %low="24" %high="51"]
+		desc:The pride of your trading empire.[include doubleCostDesc %ship="Superfreighter"][include descriptionDouble %ship="Superfreighter"]
+		icon:icons[6,14]
+		cost:1000000000000 alz, 50000 spaceCrystals
+		[include yieldAlz %amt="50000000" %for="Superfreighter"]
+		[include yieldSC %amt="5" %for="Superfreighter"]
+		req:100000000000 talz and independenceDay and militaryProtection and militaryProtection2 and fusionReactor
+
+	*Vanguard|Vanguards
+		name:Vanguard|Vanguards
+		[include shipText %low="27" %high="54"]
+		desc:An all-around ship that hunts for Space Crystals.[include doubleCostDesc %ship="Vanguard"][include descriptionDouble %ship="Vanguard"]
+		icon:icons[6,15]
+		cost:2000000000000 alz, 1000000 spaceCrystals, 10 prestigio
+		[include yieldAlz %amt="100000000" %for="Vanguard"]
+		[include yieldSC %amt="400" %for="Vanguard"]
+		req:100000000000 talz and independenceDay and militaryProtection and militaryProtection2 and fusionReactor and (Superfreighters>=2)
+
+
+//Buildings2 Planets
+
+	*cage2|moon|moons
+		name:Moon|Moons
+		[include planetText %low="9" %high="36"]
+		desc:Moons can be used as a gateway to more expanded markets.[include alzCostDesc %ship="moon"][include descriptionAlz %ship="moon"]
+		icon:icons[10,0]
+		cost:140000000 alz, 300 spaceCrystals
+		[include yieldAlz %amt="6000" %for="moon"]
+		req:independenceDay and (mammoths>=1)
+		tag: buildings2
+
+	*hutch2|iceWorld|iceWorlds
+		name:Ice World|Ice Worlds
+		[include planetText %low="10" %high="37"]
+		desc:Space Crystals can be mined inside these frozen worlds.[include scCostDesc %ship="iceWorld"][include descriptionSC %ship="iceWorld"]
+		icon:icons[10,1]
+		cost:300000000 alz, 1000 spaceCrystals
+		[include yieldSC %amt="1" %for="iceWorld"]
+		req:2000000000 talz and 10000 tsc and independenceDay and (mammoths>=1)
+		tag: buildings2
+
+	*coop2|desert|deserts
+		name:Desert Planet|Desert Planets
+		[include planetText %low="12" %high="39"]
+		desc:The Desert Planets have access to large buildable areas and many overlooked resources. As a result, markets on these planets often flourish.[include alzCostDesc %ship="desert"][include descriptionDouble %ship="desert" %interval="every 5 seconds"]
+		icon:icons[10,2]
+		cost:600000000 alz
+		[include yieldAlz %amt="100000" %for="desert"]
+		[include yieldSC %amt="0.2" %for="desert"]
+		req:5000000000 talz and 30000 tsc and (mammoths>=1)
+		tag: buildings2
+
+	*pen2|volcano|volcanoes
+		name:Volcanic Planet|Volcanic Planets
+		[include planetText %low="13" %high="40"]
+		desc:These worlds are very hard to populate, but yields lots of valuable minerals.[include doubleCostDesc %ship="volcano"][include descriptionDouble %ship="volcano" %interval="every 10 seconds"]
+		icon:icons[10,3]
+		cost:800000000 alz, 5000 spaceCrystals
+		[include yieldAlz %amt="50000" %for="volcano"]
+		[include yieldSC %amt="0.1" %for="volcano"]
+		req:7000000000 talz and 50000 tsc and (mammoths>=1)
+		tag: buildings2
+
+	*meadow2|gasGiant|gasGiants
+		name:Gas Giant|Gas Giants
+		[include planetText %low="15" %high="42"]
+		desc:Floating outposts harvests gas from these huge planets, which can be sold for high profit.[include alzCostDesc %ship="gasGiant"][include descriptionAlz %ship="gasGiant"]
+		icon:icons[10,4]
+		cost:2000000000 alz
+		[include yieldAlz %amt="200000" %for="gasGiant"]
+		req:10000000000 talz and 100000 tsc and (mammoths>=1)
+		tag: buildings2
+
+	*village2|waterWorld|waterWorlds
+		name:Water World|Water Worlds
+		[include planetText %low="18" %high="45"]
+		desc:Water Worlds are famous for their floating luxury resorts and science bases.[include doubleCostDesc %ship="waterWorld"][include descriptionDouble %ship="waterWorld"]
+		icon:icons[10,5]
+		cost:20000000000 alz, 4000 spaceCrystals
+		[include yieldAlz %amt="300000" %for="waterWorld"]
+		[include yieldSC %amt="1" %for="waterWorld"]
+		req:50000000000 talz and (mammoths>=1)
+		tag: buildings2
+
+	*city2|asteroid|asteroids
+		name:Asteroid Base|Asteroid Bases
+		[include planetText %low="19" %high="46"]
+		desc:These bases are built on large asteroids. They are costly because of their defense against asteroid impacts. However they can mine for both Space Crystals and ore which is profitable.[include doubleCostDesc %ship="asteroid"][include descriptionDouble %ship="asteroid" %interval="every 2 seconds"]
+		icon:icons[10,6]
+		cost:35000000000 alz, 40000 spaceCrystals
+		[include yieldAlz %amt="400000" %for="asteroid"]
+		[include yieldSC %amt="0.5" %for="asteroid"]
+		req:550000000000 talz and (mammoths>=1)
+		tag: buildings2
+
+	*citadel2|cityPlanet|cityPlanets
+		name:City Planet|City Planets
+		[include planetText %low="21" %high="48"]
+		desc:City Planets are very densely populated, and therefore a great market if you get renowned.[include doubleCostDesc %ship="cityPlanet"][include descriptionDouble %ship="cityPlanet" %interval="every 2 seconds"]
+		icon:icons[10,7]
+		cost:140000000 alz, 100000 spaceCrystals
+		[include yieldAlz %amt="1000000" %for="cityPlanet"]
+		[include yieldSC %amt="0.5" %for="cityPlanet"]
+		req:700000000000 talz and (battlecruisers>=1)
+		tag: buildings2
+
+	*Station2|acidWorld|acidWorlds
+		name:Acid World|Acid Worlds
+		[include planetText %low="22" %high="49"]
+		desc:With the use of the energy of Space Crystals, these outposts can be protected. The planets are very difficult to approach, which makes them suitable for intergalactic prisons and vaults.[include descriptionAlz %ship="acidWorld"]
+		icon:icons[10,8]
+		cost:600000 spaceCrystals
+		[include yieldAlz %amt="16000000" %for="acidWorld"]
+		req:1000000000000 talz and (battlecruisers>=3)
+		tag: buildings2
+
+	*Police2|earthLike|earthLikes
+		name:Earth-like Planet|Earth-like Planets
+		[include planetText %low="23" %high="50"]
+		desc:With the <b>Titan</b> built, you can now set course to populate newly discovered Earth-like planets.[include doubleCostDesc %ship="earthLike"][include descriptionDouble %ship="earthLike"]
+		icon:icons[10,9]
+		cost:400000000000 alz, 900000 spaceCrystals
+		[include yieldAlz %amt="20000000" %for="earthLike"]
+		[include yieldSC %amt="10" %for="earthLike"]
+		req:100 titan
+		tag: buildings2
+
+	*Bomber2|superEarth|superEarths
+		name:Super-Earth|Super-Earths
+		[include planetText %low="25" %high="52"]
+		desc:The Super-Earths are large Earth-like planets, with even greater conditions for life to exist. Colonize these planets, to gain both economic and scientific advantages.[include doubleCostDesc %ship="superEarth"][include descriptionDouble %ship="superEarth"]
+		icon:icons[10,10]
+		cost:1000000000000 alz, 2000000 spaceCrystals, 1 prestigio
+		[include yieldAlz %amt="80000000" %for="superEarth"]
+		[include yieldSC %amt="20" %for="superEarth"]
+		req:100000000000 talz and 100 titan and (earthLikes>=1)
+		tag: buildings2
+
+	*Ionfrigate2|roguePlanet|roguePlanets
+		name:Rogue Planet|Rogue Planets
+		[include planetText %low="26" %high="53"]
+		desc:Rogue Planets are in highly elliptical orbits and are difficult to both discover and populate. Both aliens and humans visit these planets to gain knowledge about the universe. Because of the great diversity, these planets additionally function as trading posts for valuable treasures.[include alzCostDesc %ship="roguePlanet"][include descriptionDouble %ship="roguePlanet"]
+		icon:icons[10,11]
+		cost:5000000000000 alz, 5 prestigio
+		[include yieldAlz %amt="200000000" %for="roguePlanet"]
+		[include yieldSC %amt="160" %for="roguePlanet"]
+		req:100000000000 talz and 4 taa and independenceDay and 100 titan and (earthLikes>=1)
+		tag: buildings2
+
+
+//Tier'd "upgrades"
+
+	*alienTech
+		name:Alien Technology
+		text:Alien Technology Level : [?(alienTech >= 54)|Maxed|[this]]
+		desc:Integrate Alien Artifacts into regular ship and outpost designs.<//><b>Effect:</b><.>Each Level upgrades a ship or planet category, producing x2 Alz and x1.5 Space Crystals.<.>Each Level adds +4% Alz per Click and +1% to all production.[?(alienTech<54)|<//>Next upgrade: <b>][?(alienTech == 0 or alienTech == 27)|[n:drone]][?(alienTech == 1 or alienTech == 28)|[n:merchant]][?(alienTech == 2 or alienTech == 29)|[n:hauler]][?(alienTech == 3 or alienTech == 30)|[n:transporter]][?(alienTech == 4 or alienTech == 31)|[n:freighter]][?(alienTech == 5 or alienTech == 32)|[n:specCargo]][?(alienTech == 6 or alienTech == 33)|[n:orca]][?(alienTech == 7 or alienTech == 34)|[n:mammoth]][?(alienTech == 8 or alienTech == 35)|[n:moon]][?(alienTech == 9 or alienTech == 36)|[n:iceWorld]][?(alienTech == 10 or alienTech == 37)|[n:Station]][?(alienTech == 11 or alienTech == 38)|[n:desert]][?(alienTech == 12 or alienTech == 39)|[n:volcano]][?(alienTech == 13 or alienTech == 40)|[n:Police]][?(alienTech == 14 or alienTech == 41)|[n:gasGiant]][?(alienTech == 15 or alienTech == 42)|[n:Bomber]][?(alienTech == 16 or alienTech == 43)|[n:Ionfrigate]][?(alienTech == 17 or alienTech == 44)|[n:waterWorld]][?(alienTech == 18 or alienTech == 45)|[n:asteroid]][?(alienTech == 19 or alienTech == 46)|[n:Battlecruiser]][?(alienTech == 20 or alienTech == 47)|[n:cityPlanet]][?(alienTech == 21 or alienTech == 48)|[n:acidWorld]][?(alienTech == 22 or alienTech == 49)|[n:earthLike]][?(alienTech == 23 or alienTech == 50)|[n:Superfreighter]][?(alienTech == 24 or alienTech == 51)|[n:superEarth]][?(alienTech == 25 or alienTech == 52)|[n:roguePlanet]][?(alienTech == 26 or alienTech == 53)|[n:Vanguard]][?(alienTech<54)|</b>]
+		tags:sortup PS
+		icon:icons[0,8]
+		cost:1 prestigio
+		cost increase:150%
+		on earn:do resetps with tag:PS
+		on resetps:
+			if (alienTech >= 1) droneAlzPS = droneAlzPS * 2
+			if (alienTech >= 2) merchantAlzPS = merchantAlzPS * 2
+			if (alienTech >= 3) haulerAlzPS = haulerAlzPS * 2
+			if (alienTech >= 4)
+				transporterAlzPS = transporterAlzPS * 2
+				transporterSCPS = transporterSCPS * 1.5
+			end
+			if (alienTech >= 5) freighterAlzPS = freighterAlzPS * 2
+			if (alienTech >= 6)
+				specCargoAlzPS = specCargoAlzPS * 2
+				specCargoSCPS = specCargoSCPS * 1.5
+			end
+			if (alienTech >= 7) orcaAlzPS = orcaAlzPS * 2
+			if (alienTech >= 8)
+				mammothAlzPS = mammothAlzPS * 2
+				mammothSCPS = mammothSCPS * 1.5
+			end
+			if (alienTech >= 9) moonAlzPS = moonAlzPS * 2
+			if (alienTech >= 10) iceWorldSCPS = iceWorldSCPS * 1.5
+			if (alienTech >= 11) StationAlzPS = StationAlzPS * 2
+			if (alienTech >= 12)
+				desertAlzPS = desertAlzPS * 2
+				desertSCPS = desertSCPS * 1.5
+			end
+			if (alienTech >= 13)
+				volcanoAlzPS = volcanoAlzPS * 2
+				volcanoSCPS = volcanoSCPS * 1.5
+			end
+			if (alienTech >= 14) PoliceAlzPS = PoliceAlzPS * 2
+			if (alienTech >= 15) gasGiantAlzPS = gasGiantAlzPS * 2
+			if (alienTech >= 16) BomberAlzPS = BomberAlzPS * 2
+			if (alienTech >= 17)
+				IonfrigateAlzPS = IonfrigateAlzPS * 2
+				IonfrigateSCPS = IonfrigateSCPS * 1.5
+			end
+			if (alienTech >= 18)
+				waterWorldAlzPS = waterWorldAlzPS * 2
+				waterWorldSCPS = waterWorldSCPS * 1.5
+			end
+			if (alienTech >= 19)
+				asteroidAlzPS = asteroidAlzPS * 2
+				asteroidSCPS = asteroidSCPS * 1.5
+			end
+			if (alienTech >= 20) BattlecruiserAlzPS = BattlecruiserAlzPS * 2
+			if (alienTech >= 21)
+				cityPlanetAlzPS = cityPlanetAlzPS * 2
+				cityPlanetSCPS = cityPlanetSCPS * 1.5
+			end
+			if (alienTech >= 22) acidWorldAlzPS = acidWorldAlzPS * 2
+			if (alienTech >= 23)
+				earthLikeAlzPS = earthLikeAlzPS * 2
+				earthLikeSCPS = earthLikeSCPS * 1.5
+			end
+			if (alienTech >= 24)
+				SuperfreighterAlzPS = SuperfreighterAlzPS * 2
+				SuperfreighterSCPS = SuperfreighterSCPS * 1.5
+			end
+			if (alienTech >= 25)
+				superEarthAlzPS = superEarthAlzPS * 2
+				superEarthSCPS = superEarthSCPS * 1.5
+			end
+			if (alienTech >= 26)
+				roguePlanetAlzPS = roguePlanetAlzPS * 2
+				roguePlanetSCPS = roguePlanetSCPS * 1.5
+			end
+			if (alienTech >= 27)
+				VanguardAlzPS = VanguardAlzPS * 2
+				VanguardSCPS = VanguardSCPS * 1.5
+			end
+			if (alienTech >= 28) droneAlzPS = droneAlzPS * 2
+			if (alienTech >= 29) merchantAlzPS = merchantAlzPS * 2
+			if (alienTech >= 30) haulerAlzPS = haulerAlzPS * 2
+			if (alienTech >= 31)
+				transporterAlzPS = transporterAlzPS * 2
+				transporterSCPS = transporterSCPS * 1.5
+			end
+			if (alienTech >= 32) freighterAlzPS = freighterAlzPS * 2
+			if (alienTech >= 33)
+				specCargoAlzPS = specCargoAlzPS * 2
+				specCargoSCPS = specCargoSCPS * 1.5
+			end
+			if (alienTech >= 34) orcaAlzPS = orcaAlzPS * 2
+			if (alienTech >= 35)
+				mammothAlzPS = mammothAlzPS * 2
+				mammothSCPS = mammothSCPS * 1.5
+			end
+			if (alienTech >= 36) moonAlzPS = moonAlzPS * 2
+			if (alienTech >= 37) iceWorldSCPS = iceWorldSCPS * 1.5
+			if (alienTech >= 38) StationAlzPS = StationAlzPS * 2
+			if (alienTech >= 39)
+				desertAlzPS = desertAlzPS * 2
+				desertSCPS = desertSCPS * 1.5
+			end
+			if (alienTech >= 40)
+				volcanoAlzPS = volcanoAlzPS * 2
+				volcanoSCPS = volcanoSCPS * 1.5
+			end
+			if (alienTech >= 41) PoliceAlzPS = PoliceAlzPS * 2
+			if (alienTech >= 42) gasGiantAlzPS = gasGiantAlzPS * 2
+			if (alienTech >= 43) BomberAlzPS = BomberAlzPS * 2
+			if (alienTech >= 44)
+				IonfrigateAlzPS = IonfrigateAlzPS * 2
+				IonfrigateSCPS = IonfrigateSCPS * 1.5
+			end
+			if (alienTech >= 45)
+				waterWorldAlzPS = waterWorldAlzPS * 2
+				waterWorldSCPS = waterWorldSCPS * 1.5
+			end
+			if (alienTech >= 46)
+				asteroidAlzPS = asteroidAlzPS * 2
+				asteroidSCPS = asteroidSCPS * 1.5
+			end
+			if (alienTech >= 47) BattlecruiserAlzPS = BattlecruiserAlzPS * 2
+			if (alienTech >= 48)
+				cityPlanetAlzPS = cityPlanetAlzPS * 2
+				cityPlanetSCPS = cityPlanetSCPS * 1.5
+			end
+			if (alienTech >= 49) acidWorldAlzPS = acidWorldAlzPS * 2
+			if (alienTech >= 50)
+				earthLikeAlzPS = earthLikeAlzPS * 2
+				earthLikeSCPS = earthLikeSCPS * 1.5
+			end
+			if (alienTech >= 51)
+				SuperfreighterAlzPS = SuperfreighterAlzPS * 2
+				SuperfreighterSCPS = SuperfreighterSCPS * 1.5
+			end
+			if (alienTech >= 52)
+				superEarthAlzPS = superEarthAlzPS * 2
+				superEarthSCPS = superEarthSCPS * 1.5
+			end
+			if (alienTech >= 53)
+				roguePlanetAlzPS = roguePlanetAlzPS * 2
+				roguePlanetSCPS = roguePlanetSCPS * 1.5
+			end
+			if (alienTech >= 54)
+				VanguardAlzPS = VanguardAlzPS * 2
+				VanguardSCPS = VanguardSCPS * 1.5
+			end
+		end
+		on tick:
+			multiply alz yield of tradeButton by 1.04
+			multiply talz yield of tradeButton by 1.04
+			multiply yield of tag:Alz by 1.01
+			multiply yield of tag:SC by 1.01
+		end
+		req:fusionReactor and 1 taa
+		limit:54
+
+	*BountyAI
+		name:A.T. Bounty Hunter
+		text:A.T. Bounty Hunter Level : [this]
+		desc:Integrate your Alien Technology into the Bounty Hunter ship. The Alz and Space Crystals gains of the Bounty Hunter are now teleported across space directly to your income. Thereby the Bounty Hunter can make longer journeys.<//><b>Effect:</b><.>With every level, gain a Space Crystal every second for every Alien Artifact ever earned (previous games included): <b>[taa]</b>.<.>With every level, gain 1,000,000 Alz every second for every Alien Artifact ever earned (previous games included): <b>[(taa*1000000)]</b>.<.>With every level, Bounty Hunters appear 2x less often and grant you 10x less Alz and Space Crystals.
+		icon:icons[0,9]
+		cost:5000 prestigio
+		req:fusionReactor and 100000 taa
+		on tick:yield (taa) spaceCrystals
+		on tick:yield (taa) tsc
+		on tick:yield (taa*1000000) alz
+		on tick:yield (taa*1000000) talz
+		passive:multiply frequency of bountyHunter by 2
+		tags:sortup
+		cost increase:150%
+
+
+Upgrades
+	//*TEMPLATE
+	//	on click:anim glow
+
+	*parsley|miningDroneI
+		name:Mining Drone Tech I
+		desc:Powers up the efficiency of the Mining Drones.<//><b>Effect:</b><.>+1 Alz/click.<.>Mining Drone production x2.
+		icon:icons[0,3]
+		cost:200 alz
+		passive:increase alz yield of tradeButton by 1
+		passive:increase talz yield of tradeButton by 1
+		passive:multiply yield of drone by 2
+		passive:multiply frequency of psDrones by 0.1
+		passive:multiply frequency of psDrones2 by 0.1
+		on earn:do resetps
+		on resetps:if (this) droneAlzPS = droneAlzPS * 2
+		req:200 talz and (drones>=3)
+		tag:PS
+
+	*spinach|miningDroneII
+		name:Mining Drone Tech II
+		desc:Powers up the efficiency of the Mining Drones.<//><b>Effect:</b><.>Mining Drone production x3.
+		icon:icons[0,3]
+		cost:500 alz
+		passive:multiply yield of drone by 3
+		passive:multiply frequency of psDrones by 0.7
+		passive:multiply frequency of psDrones2 by 0.7
+		on earn:do resetps
+		on resetps:if (this) droneAlzPS = droneAlzPS * 3
+		req:500 talz and miningDroneI
+		tag:PS
+
+	*lettuce|droneAI
+		name:Drone AI Upgrade
+		desc:The AI is significantly upgraded.<//><b>Effect:</b><.>Mining Drone production x4.
+		icon:icons[0,3]
+		cost:1000 alz
+		passive:multiply yield of drone by 4
+		passive:multiply frequency of psDrones by 0.7
+		passive:multiply frequency of psDrones2 by 0.7
+		on earn:do resetps
+		on resetps:if (this) droneAlzPS = droneAlzPS * 4
+		req:1000 talz and miningDroneI and (drones>=20)
+		tag:PS
+
+	*broccoli|exchangeI
+		name:Grand Exchange I
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x2.<.>Alz production +5%.
+		icon:icons[0,4]
+		cost:3000 alz
+		passive:multiply alz yield of tradeButton by 2
+		passive:multiply talz yield of tradeButton by 2
+		passive:multiply yield of tag:Alz by 1.05
+		req:3000 talz and miningDroneI and miningDroneII
+
+	*apple|exchangeII
+		name:Grand Exchange II
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x1.5.<.>Alz production +5%.
+		icon:icons[0,4]
+		cost:200000 alz
+		passive:multiply alz yield of tradeButton by 1.5
+		passive:multiply talz yield of tradeButton by 1.5
+		passive:multiply yield of tag:Alz by 1.05
+		req:100000 talz and exchangeI
+
+	*radish|exchangeIII
+		name:Grand Exchange III
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x1.5.<.>Alz production +5%.
+		icon:icons[0,4]
+		cost:10000000 alz
+		passive:multiply alz yield of tradeButton by 1.5
+		passive:multiply talz yield of tradeButton by 1.5
+		passive:multiply yield of tag:alz by 1.05
+		req:16000000 talz and exchangeII
+
+	*mint|exchangeIV
+		name:Grand Exchange IV
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x1.5.<.>Alz production +5%.
+		icon:icons[0,4]
+		cost:50000000 alz
+		passive:multiply alz yield of tradeButton by 1.5
+		passive:multiply talz yield of tradeButton by 1.5
+		passive:multiply yield of tag:Alz by 1.05
+		req:100000000 talz and exchangeIII
+
+	*chard|exchangeV
+		name:Grand Exchange V
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x1.5.<.>Alz production +5%.
+		icon:icons[0,5]
+		cost:100000000 alz
+		passive:multiply alz yield of tradeButton by 1.5
+		passive:multiply talz yield of tradeButton by 1.5
+		passive:multiply yield of tag:Alz by 1.05
+		req:200000000 talz and exchangeIV
+
+	*cherry|exchangeVI
+		name:Grand Exchange VI
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x1.5.<.>Alz production +5%.
+		icon:icons[0,5]
+		cost:400000000 alz
+		passive:multiply alz yield of tradeButton by 1.5
+		passive:multiply talz yield of tradeButton by 1.5
+		passive:multiply yield of tag:Alz by 1.05
+		req:5000000000 talz and exchangeV
+
+	*carrot|exchangeVII
+		name:Grand Exchange VII
+		desc:Increases the entire station sales.<//><b>Effect:</b><.>Alz/click x2.<.>Alz production +10%.
+		icon:icons[0,5]
+		cost:10000000000 alz
+		passive:multiply alz yield of tradeButton by 2
+		passive:multiply talz yield of tradeButton by 2
+		passive:multiply yield of tag:Alz by 1.1
+		req:15000000000 talz and exchangeVI
+
+	//building upgrades
+
+	*buildingUpgrade1|engineTechI
+		name:Ship Engine Tech I
+		desc:Your basic ships and drones travel faster!<//><b>Effect:</b><.>Mining Drone production x2.<.>Merchant Ship production x2.<.>Hauler production x2.
+		icon:icons[0,2]
+		cost:100000 alz
+		passive:multiply yield of drone by 2
+		passive:multiply yield of merchant by 2
+		passive:multiply yield of hauler by 2
+		passive:multiply frequency of particleShips by 0.01
+		passive:multiply frequency of particleShips2 by 0.01
+		passive:multiply frequency of psHaulers by 0.01
+		passive:multiply frequency of psHaulers2 by 0.01
+		on earn:do resetps
+		on resetps:
+			if (this)
+				droneAlzPS = droneAlzPS * 2
+				merchantAlzPS = merchantAlzPS * 2
+				haulerAlzPS = haulerAlzPS * 2
+			end
+		end
+		req:80000 talz and (haulers>=2)
+		tag:PS
+
+	*buildingUpgrade2|engineTechII
+		name:Ship Engine Tech II
+		desc:Improves the engine technology of your basic ships and drones.<//><b>Effect:</b><.>Mining Drone production x2.<.>Merchant Ship production x2.<.>Hauler production x2.
+		icon:icons[0,2]
+		cost:1000000 alz
+		passive:multiply yield of drone by 2
+		passive:multiply yield of merchant by 2
+		passive:multiply yield of hauler by 2
+		passive:multiply frequency of particleShips by 0.7
+		passive:multiply frequency of particleShips2 by 0.7
+		passive:multiply frequency of psHaulers by 0.7
+		passive:multiply frequency of psHaulers2 by 0.7
+		on earn:do resetps
+		on resetps:
+			if (this)
+				droneAlzPS = droneAlzPS * 2
+				merchantAlzPS = merchantAlzPS * 2
+				haulerAlzPS = haulerAlzPS * 2
+			end
+		end
+		req:2000000 talz and (drones>=30 or merchants>=30 or haulers>=30) and engineTechI
+		tag:PS
+		
+	*buildingUpgrade3|engineTechIII
+		name:Ship Engine Tech III
+		desc:Further improves the engine technology.<//><b>Effect:</b><.>Mining Drone production x2.<.>Merchant Ship production x2.<.>Hauler production x2.
+		icon:icons[0,2]
+		cost:5000000 alz
+		passive:multiply yield of drone by 2
+		passive:multiply yield of merchant by 2
+		passive:multiply yield of hauler by 2
+		passive:multiply frequency of particleShips by 0.7
+		passive:multiply frequency of particleShips2 by 0.7
+		passive:multiply frequency of psHaulers by 0.7
+		passive:multiply frequency of psHaulers2 by 0.7
+		on earn:do resetps
+		on resetps:
+			if (this)
+				droneAlzPS = droneAlzPS * 2
+				merchantAlzPS = merchantAlzPS * 2
+				haulerAlzPS = haulerAlzPS * 2
+			end
+		end
+		req:(drones>=50 or merchants>=50 or haulers>=50) and engineTechII
+		tag:PS
+
+	*buildingUpgrade4|cargoHoldI
+		name:Cargo Hold Upgrade I
+		desc:Increases the cargo hold of your medium trade ships.<//><b>Effect:</b><.>Transporter production x2.<.>Freighter production x2.
+		icon:icons[12,3]
+		cost:4000000 alz
+		passive:multiply yield of transporter by 2
+		passive:multiply yield of freighter by 2
+		on earn:do resetps
+		on resetps:
+			if (this)
+				transporterAlzPS = transporterAlzPS * 2
+				transporterSCPS = transporterSCPS * 2
+				freighterAlzPS = freighterAlzPS * 2
+			end
+		end
+		req:(transporters>=10 or freighters>=10)
+		tag:PS
+
+	*buildingUpgrade5|cargoHoldII
+		name:Cargo Hold Upgrade II
+		desc:Further increases the cargo hold of your medium trade ships.<//><b>Effect:</b><.>Transporter production x2.<.>Freighter production x2.
+		icon:icons[12,4]
+		cost:50000000 alz
+		passive:multiply yield of transporter by 2
+		passive:multiply yield of freighter by 2
+		passive:multiply frequency of psTransp by 0.005
+		passive:multiply frequency of psTransp2 by 0.005
+		passive:multiply frequency of psFrei by 0.005
+		passive:multiply frequency of psFrei2 by 0.005
+		on earn:do resetps
+		on resetps:
+			if (this)
+				transporterAlzPS = transporterAlzPS * 2
+				transporterSCPS = transporterSCPS * 2
+				freighterAlzPS = freighterAlzPS * 2
+			end
+		end
+		req:(transporters>=30 or freighters>=30) and cargoHoldI
+		tag:PS
+
+	*buildingUpgrade6|hyperDriveI
+		name:Hyper Drive I
+		desc:Invent the Hyper Drive to travel to distant galaxies.<//><b>Effect:</b><.>Special Cargo Ship production x2.<.>Orca production x2.
+		icon:icons[0,2]
+		cost:100000000 alz
+		passive:multiply yield of specCargo by 2
+		passive:multiply yield of orca by 2
+		passive:multiply frequency of psSCS by 0.01
+		passive:multiply frequency of psSCS2 by 0.01
+		passive:multiply frequency of psOrca by 0.01
+		passive:multiply frequency of psOrca2 by 0.01
+		on earn:do resetps
+		on resetps:
+			if (this)
+				specCargoAlzPS = specCargoAlzPS * 2
+				specCargoSCPS = specCargoSCPS * 2
+				orcaAlzPS = orcaAlzPS * 2
+			end
+		end
+		req:(specCargos>=10 or orcas>=10)
+		tag:PS
+
+	*buildingUpgrade7|hyperDriveII
+		name:Hyper Drive II
+		desc:Improves the Hyper Drive technology.<//><b>Effect:</b><.>Special Cargo Ship production x8.<.>Orca production x8.
+		icon:icons[0,2]
+		cost:50000000000 alz
+		passive:multiply yield of specCargo by 8
+		passive:multiply yield of orca by 8
+		passive:multiply frequency of psSCS by 0.5
+		passive:multiply frequency of psSCS2 by 0.5
+		passive:multiply frequency of psOrca by 0.5
+		passive:multiply frequency of psOrca2 by 0.5
+		on earn:do resetps
+		on resetps:
+			if (this)
+				specCargoAlzPS = specCargoAlzPS * 8
+				specCargoSCPS = specCargoSCPS * 8
+				orcaAlzPS = orcaAlzPS * 8
+			end
+		end
+		req:hyperDriveI and 15000000000 talz
+		tag:PS
+
+	*buildingUpgrade8|extremeCargoHold
+		name:Extreme Cargo Hold
+		desc:Increases the Mammoth cargo hold.<//><b>Effect:</b><.>Mammoth production x10.
+		icon:icons[12,5]
+		cost:10000000000 alz
+		passive:multiply frequency of psMam by 0.01
+		passive:multiply frequency of psMam2 by 0.01
+		passive:multiply yield of mammoth by 10
+		on earn:do resetps
+		on resetps:
+			if (this)
+				mammothAlzPS = mammothAlzPS * 10
+				mammothSCPS = mammothSCPS * 10
+			end
+		end
+		req:10 mammoths and cargoHoldII
+		tag:PS
+
+	//space crystal upgrades
+
+	*goldenTouch|blackMarket
+		name:Black Market
+		desc:Access the Black Market.<//><b>Effect:</b><.>1% chance of gaining 1 Space Crystal per trading click.
+		icon:icons[0,3]
+		cost:5 spaceCrystal
+		passive:multiply frequency of particleShips by 0.7
+		passive:multiply frequency of particleShips2 by 0.7
+		req:10 tsc and engineTechI
+		
+	*rabbitHaste|bountyNetworkI
+		name:Bounty Hunting Network I
+		desc:Create a network for bounty hunting.<//><b>Effect:</b><.>Bounty Hunters appear 30% more often.
+		icon:icons[0,3]
+		passive:multiply frequency of bountyHunter by 0.7
+		cost:7 spaceCrystal
+		req:4 tsc and engineTechI
+
+	*rabbitHasteII|bountyNetworkII
+		name:Bounty Hunting Network II
+		desc:Expands and improves the network.<//><b>Effect:</b><.>Bounty Hunters appear 30% more often.
+		icon:icons[0,3]
+		passive:multiply frequency of bountyHunter by 0.7
+		cost:12 spaceCrystal
+		req:15 tsc and bountyNetworkI
+
+	*independenceDay
+		name:Independence Day
+		desc:Unlock the technology for advanced constructions.<//><b>Effect:</b><.>Unlocks advanced ships.
+		icon:icons[0,6]
+		cost:25 spaceCrystals
+		req:22 tsc and (freighters>=1)
+
+	*clover|pirateHunters
+		name:Pirate Hunters
+		desc:Place bounties on pirate ships!<//><b>Effect:</b><.>Bounty Hunters grant you 4 times more Alz[?bar| and Space Crystals].
+		icon:icons[12,6]
+		cost:100 spaceCrystals
+		req:50 tsc and independenceDay
+
+	*moonGardens|mammothDrones
+		name:Mammoth Drone Tech
+		desc:Your Mammoths can now deploy mining drones to mine for Space Crystals!<//><b>Effect:</b><.>Mammoths now produce 1 Space Crystal every 100 seconds.
+		icon:icons[12,7]
+		cost:1000 spaceCrystals
+		passive:multiply frequency of psMam by 0.5
+		passive:multiply frequency of psMam2 by 0.5
+		req:(mammoths>=1) and 50 tsc
+
+	*militaryProtection
+		name:Military Protection I
+		desc:Protect your trade routes and stations from enemies and pirates.<//><b>Effect:</b><.>Unlocks military ships.
+		icon:icons[3,6]
+		cost:8000 spaceCrystals
+		req:500 tsc and (stations>=1)
+
+	*militaryProtection2
+		name:Military Protection II
+		desc:Protect your trade routes and stations with larger and more advanced ships.<//><b>Effect:</b><.>Unlocks large military ships.
+		icon:icons[3,7]
+		cost:90000 spaceCrystals
+		req:5000 tsc and militaryProtection
+
+	*shippingNetwork
+		name:Shipping Network
+		desc:The Shipping Network optimizes all your trade routes.<//><b>Effect:</b><.>Alz production increased by 100% per 1,000 total Ships and Drones owned.
+		icon:icons[0,3]
+		cost:100000000000000 alz
+		passive:multiply yield of tag:Alz by (1+(totalShips*0.001))
+		req:fusionReactor and 1 taa
+
+	*shippingNetwork2
+		name:Shipping Network II
+		desc:Expands the Shipping Network.<//><b>Effect:</b><.>Alz production increased by 200% per 1,000 total Ships and Drones owned.
+		icon:icons[0,3]
+		cost:1000000000000000000 alz
+		passive:multiply yield of tag:Alz by (1+(totalShips*0.002))
+		req:shippingNetwork and 1000000 taa
+
+	*supplyNetwork
+		name:Supply Network
+		desc:Create a network for Space Crystal hunters.<//><b>Effect:</b><.>Space Crystal production increased by 100% per 1,000 total Outposts owned.
+		icon:icons[0,3]
+		cost:10000000 spaceCrystals
+		passive:multiply yield of tag:SC by (1+(totalPlanets*0.001))
+		req:fusionReactor and 1 taa
+
+	*supplyNetwork2
+		name:Supply Network II
+		desc:Expands the network for Space Crystal hunters.<//><b>Effect:</b><.>Space Crystal production increased by 200% per 1,000 total Outposts owned.
+		icon:icons[0,3]
+		cost:1000000000000 spaceCrystals
+		passive:multiply yield of tag:SC by (1+(totalPlanets*0.002))
+		req:supplyNetwork and 1000000 taa
+
+
+//upgrades2
+
+	*parsley2|lifeSupport
+		name:Life Support System
+		desc:Makes the station inhabitable.
+		icon:icons[13,0]
+		cost:400 alz
+		req:drones>=5
+		tag: upgrades2
+
+	*spinach2|airlock
+		name:Airlock
+		desc:With this facility people can enter the station from the shipyard.<//><b>Effect:</b><.>Unlocks Merchant Ships.
+		icon:icons[13,1]
+		cost:900 alz
+		req:lifeSupport
+		tag: upgrades2
+
+	*lettuce2|bar
+		name:Bar
+		desc:This is where the people of the station come to hang out. Also bartenders gathers and delivers information for Bounty Hunters and visitors.<//><b>Effect:</b><.>Bounty Hunters can now grant you a lot more Space Crystals.
+		icon:icons[13,2]
+		cost:600000 alz
+		req:bountyNetworkII and airlock
+		tag: upgrades2
+
+	*broccoli2|refinery
+		name:Refinery
+		desc:Makes your station able to refine ore from Mining Drones.<//><b>Effect:</b><.>Mining Drone production x5.
+		icon:icons[13,3]
+		cost:75000 alz
+		passive:multiply yield of drone by 5
+		on earn:do resetps
+		on resetps:if (this) droneAlzPS = droneAlzPS * 5
+		req:lifeSupport
+		tag: upgrades2 PS
+
+	*apple2|tradeHub
+		name:Trade Hub
+		desc:The Trade Hub is the center of trading. It gives traders market overviews and economic advantadges.<//><b>Effect:</b><.>Alz/click x5.<.>Alz production +10%.
+		icon:icons[13,4]
+		cost:6000000 alz
+		passive:multiply alz yield of tradeButton by 5
+		passive:multiply talz yield of tradeButton by 5
+		passive:multiply yield of tag:Alz by 1.10
+		req:refinery
+		tag: upgrades2
+
+	*radish2|residenceArea
+		name:Residence Area
+		desc:Expands the inhabitability of the station. Now lifeforms from around the universe can have their home here.<//><b>Effect:</b><.>Merchant Ship production x3<.>Hauler production x3.<.>Transporter production x3.
+		icon:icons[13,5]
+		cost:20000000 alz
+		passive:multiply yield of merchant by 3
+		passive:multiply yield of hauler by 3
+		passive:multiply yield of transporter by 3
+		on earn:do resetps
+		on resetps:
+			if (this)
+				merchantAlzPS = merchantAlzPS * 3
+				haulerAlzPS = haulerAlzPS * 3
+				transporterAlzPS = transporterAlzPS * 3
+				transporterSCPS = transporterSCPS * 3
+			end
+		end
+		req:tradeHub
+		tag: upgrades2 PS
+
+	*mint2|garden
+		name:Garden
+		desc:With the garden, your station becomes a self-sustaining ecosystem.<//><b>Effect:</b><.>Alz production +20%.
+		icon:icons[13,6]
+		cost:40000000 alz
+		passive:multiply alz yield of tradeButton by 1.5
+		passive:multiply talz yield of tradeButton by 1.5
+		passive:multiply yield of tag:Alz by 1.20
+		req:residenceArea
+		tag: upgrades2
+
+	*chard2|shieldGenerator
+		name:Shield Generator
+		desc:Protects the station and docked ships from enemy fire and asteroids.<//><b>Effect:</b><.>Merchant Ship production x1.5.<.>Hauler production x1.5.<.>Transporter production x1.5.<.>Freighter production x4.
+		icon:icons[13,7]
+		cost:50000000 alz
+		passive:multiply yield of merchant by 1.5
+		passive:multiply yield of hauler by 1.5
+		passive:multiply yield of transporter by 1.5
+		passive:multiply yield of freighter by 4
+		on earn:do resetps
+		on resetps:
+			if (this)
+				merchantAlzPS = merchantAlzPS * 1.5
+				haulerAlzPS = haulerAlzPS * 1.5
+				transporterAlzPS = transporterAlzPS * 1.5
+				transporterSCPS = transporterSCPS * 1.5
+				freighterAlzPS = freighterAlzPS * 4
+			end
+		end
+		req:garden
+		tag: upgrades2 PS
+
+	*cherry2|fitnessRoom
+		name:Fitness Room
+		desc:The lifeforms of the station can now stay healthy and thereby be in space for longer time.<//><b>Effect:</b><.>Alz production +10%.
+		icon:icons[13,8]
+		cost:40000000 alz
+		passive:multiply yield of tag:Alz by 1.10
+		req:50000000 talz and shieldGenerator
+		tag: upgrades2
+
+	*carrot2|researchLab
+		name:Research Lab
+		desc:Researches new technologies.<//><b>Effect:</b><.>Special Cargo Ship production x4.
+		icon:icons[13,9]
+		cost:1000000000 alz
+		passive:multiply yield of specCargo by 4
+		on earn:do resetps
+		on resetps:
+			if (this)
+				specCargoAlzPS = specCargoAlzPS * 4
+				specCargoSCPS = specCargoSCPS * 4
+			end
+		end
+		req:shieldGenerator
+		tag: upgrades2 PS
+
+	//building upgrades
+
+	*buildingUpgrade12|commandCenter
+		name:Command Center
+		desc:Optimizes the trade routes and expands the control of your ships and stations.<//><b>Effect:</b><.>Mammoth production x3.<.>Station production x2.
+		icon:icons[13,10]
+		cost:7000000000 alz
+		passive:multiply yield of mammoth by 3
+		passive:multiply yield of Station by 2
+		on earn:do resetps
+		on resetps:
+			if (this)
+				mammothAlzPS = mammothAlzPS * 3
+				mammothSCPS = mammothSCPS * 3
+				StationAlzPS = StationAlzPS * 2
+			end
+		end
+		req:800000000 talz and (mammoths>=1)
+		tag: upgrades2 PS
+
+	*buildingUpgrade22|defenseControl
+		name:Defense Control Room
+		desc:Control the turrets of the station and ensure full control over your military units.<//><b>Effect:</b><.>Police Squadron production x2.<.>Bomber Escadrille production x2.<.>Ion Frigate production x1.5.<.>Alz production +5%.
+		icon:icons[13,11]
+		cost:50000000000 alz
+		passive:multiply yield of Police by 2
+		passive:multiply yield of Bomber by 2
+		passive:multiply yield of Ionfrigate by 1.5
+		passive:multiply yield of tag:Alz by 1.05
+		passive:multiply frequency of psPS by 0.01
+		passive:multiply frequency of psPS2 by 0.01
+		passive:multiply frequency of psBE by 0.01
+		passive:multiply frequency of psBE2 by 0.01
+		passive:multiply frequency of psIon by 0.01
+		passive:multiply frequency of psIon2 by 0.01
+		on earn:do resetps
+		on resetps:
+			if (this)
+				PoliceAlzPS = PoliceAlzPS * 2
+				BomberAlzPS = BomberAlzPS * 2
+				IonfrigateAlzPS = IonfrigateAlzPS * 1.5
+				IonfrigateSCPS = IonfrigateSCPS * 1.5
+			end
+		end
+		req:commandCenter and militaryProtection2
+		tag: upgrades2 PS
+
+	*buildingUpgrade32|robotShop
+		name:Robot Shop
+		desc:Makes and sells robots, which can do anything from repairing ships to handling communication.<//><b>Effect:</b><.>Ion Frigate production x2.
+		icon:icons[13,12]
+		cost:400000000000 alz
+		passive:multiply yield of Ionfrigate by 2
+		passive:multiply frequency of psIon by 0.5
+		passive:multiply frequency of psIon2 by 0.5
+		on earn:do resetps
+		on resetps:
+			if (this)
+				IonfrigateAlzPS = IonfrigateAlzPS * 2
+				IonfrigateSCPS = IonfrigateSCPS * 2
+			end
+		end
+		req:defenseControl
+		tag: upgrades2 PS
+
+	*buildingUpgrade42|fusionReactor
+		name:Fusion Reactor
+		desc:A source for near unlimited energy. Power is no longer a limitation.<//><b>Effect:</b><.>Space Crystal production +40%.<.>Unlocks something colossal.
+		icon:icons[13,13]
+		cost:1000000000000 alz, 1000000 spaceCrystals
+		passive:multiply yield of tag:SC by 1.40
+		passive:multiply frequency of psBC by 0.005
+		passive:multiply frequency of psBC2 by 0.005
+		passive:multiply frequency of psSuperF by 0.005
+		passive:multiply frequency of psSuperF2 by 0.005
+		passive:multiply frequency of psVG by 0.05
+		passive:multiply frequency of psVG2 by 0.05
+		passive:multiply frequency of psTitan by 0.05
+		passive:multiply frequency of psTitan2 by 0.05
+		req:5600000000 talz and robotShop
+		tag: upgrades2
+
+	*ResetPrestige
+		name:Gain Alien Artifacts
+		text:Gain <b><#ffffff>[tsc*0.000001]</b></#><//>Alien Artifacts
+		desc:Reset everything, gaining <b>[tsc*0.000001]</b> Alien Artifacts.<//><b>Effect:</b><.>Gain 1 Alien Artifact per 1,000,000 Space Crystals earned (previous runs included).
+		tag:prestige upgrades2
+		req:fusionReactor and taa<1000000000000000000000000000000000000000000
+		icon:icons[0,8]
+		on earn:log Run completed. <//>[tsc*0.000001] Alien Artifacts gained!
+		on earn:
+			lose notTag:prestige
+			yield (tsc*0.000001) prestigio
+			yield (tsc*0.000001) taa
+			lose ResetPrestige
+			//This will reset all the "per second" hidden resources used for descriptions to their default values.
+			do resetps with tag:PS
+		end
+
+	*ResetPrestige2
+		name:Gain Data Orb
+		desc:Reset everything, <b>even your Alien Artifacts</b>, gaining <b>1</b> Data Orb.<//><b>Effect:</b><.>Complete the game and start from scratch with a Data Orb.
+		tag:prestige sortup2
+		req:1000000000000000000000000000000000000000000 taa and fusionReactor
+		icon:icons[0,10]
+		on earn:log Congratulations, you finally completed the game!
+		on earn:
+			lose notTag:prestige2
+			yield 1 prestigio2
+			lose ResetPrestige2
+			//This will reset all the "per second" hidden resources used for descriptions to their default values.
+			do resetps with tag:PS
+		end
+
+Achievements
+	*TEMPLATE
+		on earn:log [n:this] Achievement earned!
+	//	on click:anim glow
+
+	*shipAchiev1
+		name:Your First Spaceship
+		desc:Buy a spaceship.
+		req:(merchants>=1)
+		icon:icons[0,2]
+		tag:prestige prestige2
+	*shipAchiev5
+		name:Wealth
+		desc:Buy a Superfreighter.
+		req:(Superfreighters>=1)
+		icon:icons[6,14]
+		tag:prestige prestige2
+	*shipAchiev6
+		name:Prosperity
+		desc:Have <b>10</b> Superfreighters.
+		req:(Superfreighters>=10)
+		icon:icons[6,14]
+		tag:prestige prestige2
+	*shipAchiev7
+		name:Trade Expansion
+		desc:Have <b>100</b> Superfreighters.
+		req:(Superfreighters>=100)
+		icon:icons[6,14]
+		tag:prestige prestige2
+	*shipAchiev2
+		name:Explorer of the Cosmos
+		desc:Buy a Vanguard.
+		req:(Vanguards>=1)
+		icon:icons[6,15]
+		tag:prestige prestige2
+	*shipAchiev3
+		name:Guardian
+		desc:Have <b>10</b> Vanguards.
+		req:(Vanguards>=10)
+		icon:icons[6,15]
+		tag:prestige prestige2
+	*shipAchiev4
+		name:Champion
+		desc:Have <b>100</b> Vanguards.
+		req:(Vanguards>=100)
+		icon:icons[6,15]
+		tag:prestige prestige2
+
+	*bunnyAchievm1
+		name:The Start of the Journey
+		desc:Start a new game.
+		passive:multiply frequency of psDrones by 5
+		passive:multiply frequency of psHaulers by 50
+		passive:multiply frequency of psTransp by 50
+		passive:multiply frequency of psFrei by 50
+		passive:multiply frequency of psSCS by 50
+		passive:multiply frequency of psOrca by 50
+		passive:multiply frequency of psMam by 50
+		passive:multiply frequency of psTitan by 50
+		passive:multiply frequency of psPS by 50
+		passive:multiply frequency of psBE by 50
+		passive:multiply frequency of psIon by 50
+		passive:multiply frequency of psBC by 50
+		passive:multiply frequency of psSuperF by 50
+		passive:multiply frequency of psVG by 50
+		passive:multiply frequency of psDrones2 by 5
+		passive:multiply frequency of psHaulers2 by 50
+		passive:multiply frequency of psTransp2 by 50
+		passive:multiply frequency of psFrei2 by 50
+		passive:multiply frequency of psSCS2 by 50
+		passive:multiply frequency of psOrca2 by 50
+		passive:multiply frequency of psMam2 by 50
+		passive:multiply frequency of psTitan2 by 50
+		passive:multiply frequency of psPS2 by 50
+		passive:multiply frequency of psBE2 by 50
+		passive:multiply frequency of psIon2 by 50
+		passive:multiply frequency of psBC2 by 50
+		passive:multiply frequency of psSuperF2 by 50
+		passive:multiply frequency of psVG2 by 50
+		passive:multiply frequency of particleShips by 50
+		passive:multiply frequency of particleShips2 by 50
+		on earn:tsc is spaceCrystals:earned
+		on earn:taa is prestigio:earned
+		//This will set all the "per second" hidden resources used for descriptions.
+		on earn:do resetps with tag:ps
+		req:0 alz
+		icon:icons[0,0]
+		tag:prestige prestige2
+	*bunnyAchiev2
+		name:Humble Merchant
+		desc:Have <b>1,000</b> Alz.
+		req:1000 alz
+		icon:icons[0,0]
+		tag:prestige prestige2
+	*bunnyAchiev3
+		name:Millionaire
+		desc:Have <b>1,000,000</b> Alz.
+		req:1000000 alz
+		icon:icons[0,0]
+		tag:prestige prestige2
+	*bunnyAchiev4
+		name:Billionaire
+		desc:Have <b>1,000,000,000</b> Alz.
+		req:1000000000 alz
+		icon:icons[0,0]
+		tag:prestige prestige2
+	*bunnyAchiev5
+		name:Trillionaire
+		desc:Have <b>1,000,000,000,000</b> Alz.
+		req:1000000000000 alz
+		icon:icons[0,0]
+		tag:prestige prestige2
+
+	*clickAchiev1
+		name:Trader
+		desc:Click the trade station <b>100</b> times.
+		req:100 tradeButton clicks
+		icon:icons[0,3]
+		tag:prestige prestige2
+	*clickAchiev2
+		name:Agent
+		desc:Click the trade station <b>1,000</b> times.
+		req:1000 tradeButton clicks
+		icon:icons[0,3]
+		tag:prestige prestige2
+	*clickAchiev3
+		name:Marketeer
+		desc:Click the trade station <b>2,000</b> times.
+		req:2000 tradeButton clicks
+		icon:icons[0,3]
+		tag:prestige prestige2
+
+	*bunnyPsAchiev1
+		name:Drone Mechanic
+		desc:Produce <b>10</b> Alz per second.
+		req:10 alz per second
+		icon:icons[0,4]
+		tag:prestige prestige2
+	*bunnyPsAchiev2
+		name:Spacecraft Collector
+		desc:Produce <b>100</b> Alz per second.
+		req:100 alz per second
+		icon:icons[0,4]
+		tag:prestige prestige2
+	*bunnyPsAchiev3
+		name:Shipyard CEO
+		desc:Produce <b>1,000</b> Alz per second.
+		req:1000 alz per second
+		icon:icons[0,4]
+		tag:prestige prestige2
+	*bunnyPsAchiev4
+		name:Station Manager
+		desc:Produce <b>10,000</b> Alz per second.
+		req:10000 alz per second
+		icon:icons[0,5]
+		tag:prestige prestige2
+	*bunnyPsAchiev5
+		name:Market Manipulator
+		desc:Produce <b>100,000</b> Alz per second.
+		req:100000 alz per second
+		icon:icons[0,5]
+		tag:prestige prestige2
+	*bunnyPsAchiev6
+		name:Trade Dynasty CEO
+		desc:Produce <b>1,000,000</b> Alz per second.
+		req:1000000 alz per second
+		icon:icons[0,5]
+		tag:prestige prestige2
+
+	*carrotAchiev1
+		name:A Great Discovery
+		desc:Have <b>1</b> Space Crystal.
+		req:1 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	*carrotAchiev2
+		name:Treasure Keeper
+		desc:Have <b>10</b> Space Crystals.
+		req:10 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	*carrotAchiev3
+		name:Crystal Hunter
+		desc:Have <b>100</b> Space Crystals.
+		req:100 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	*carrotAchiev4
+		name:Crystal Miner
+		desc:Have <b>1,000</b> Space Crystals.
+		req:1000 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	*carrotAchiev5
+		name:Crystal Maniac
+		desc:Have <b>10,000</b> Space Crystals.
+		req:10000 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	*carrotAchiev6
+		name:Singularity
+		desc:Have <b>100,000</b> Space Crystals.
+		req:100000 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	*carrotAchiev7
+		name:New Dawn
+		desc:Have <b>1,000,000</b> Space Crystals.
+		req:1000000 spaceCrystal
+		icon:icons[0,1]
+		tag:prestige prestige2
+	
+	*fortressAchiev
+		name:Freedom!
+		desc:Complete building the <b>Titan</b>.<//>
+		req:100 titan
+		icon:icons[6,8]
+		tag:prestige prestige2
+
+	*pAchiev1
+		name:To the Moon
+		desc:Create an Oupost on a Moon.
+		req:(moons>=1)
+		icon:icons[10,0]
+		tag:prestige prestige2
+	*pAchiev2
+		name:Another Earth
+		desc:Create an Oupost on an Earth-Like Planet.
+		req:(earthLikes>=1)
+		icon:icons[10,9]
+		tag:prestige prestige2
+	*pAchiev3
+		name:Intergalactical
+		desc:Have <b>10</b> Outposts on Earth-Like Planets.
+		req:(earthLikes>=10)
+		icon:icons[10,9]
+		tag:prestige prestige2
+	*pAchiev4
+		name:Utopia
+		desc:Create an Oupost on a Super-Earth.
+		req:(superEarths>=1)
+		icon:icons[10,10]
+		tag:prestige prestige2
+	*pAchiev5
+		name:Avalon
+		desc:Have <b>10</b> Outposts on Super-Earths.
+		req:(superEarths>=10)
+		icon:icons[10,10]
+		tag:prestige prestige2
+	*pAchiev6
+		name:Remote
+		desc:Create an Oupost on a Rogue Planet.
+		req:(roguePlanets>=1)
+		icon:icons[10,11]
+		tag:prestige prestige2
+	*pAchiev7
+		name:Improbable
+		desc:Have <b>10</b> Outposts on Rogue Planets.
+		req:(roguePlanets>=10)
+		icon:icons[10,11]
+		tag:prestige prestige2
+	*aaAchiev
+		name:Paradox
+		desc:Gain <b>Alien Artifacts</b>.<//>
+		req:1 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev2
+		name:Flux
+		desc:Have <b>100 Alien Artifacts</b>.<//>
+		req:100 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev3
+		name:Chimera
+		desc:Have <b>1,000 Alien Artifacts</b>.<//>
+		req:1000 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev4
+		name:Enigma
+		desc:Have <b>10,000 Alien Artifacts</b>.<//>
+		req:10000 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev5
+		name:Endless
+		desc:Have <b>100,000 Alien Artifacts</b>.<//>
+		req:100000 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev6
+		name:Infinity
+		desc:Have <b>1,000,000 Alien Artifacts</b>.<//>
+		req:1000000 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev7
+		name:Eternity
+		desc:Have <b>1,000,000,000 Alien Artifacts</b>.<//>
+		req:1000000000 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*aaAchiev8
+		name:Eon
+		desc:Have <b>1,000,000,000,000 Alien Artifacts</b>.<//>
+		req:1000000000000 prestigio
+		icon:icons[0,8]
+		tag:prestige prestige2
+	*doAchiev1
+		name:Devotion
+		desc:Have a <b>Data Orb</b>.
+		req:1 prestigio2
+		icon:icons[0,10]
+		tag:prestige prestige2
+
+
+CSS
+#game
+  {
+    background:#002130;
+    background-size: cover;
+    font-family: DejaVu Sans Mono, monospace !important;
+    letter-spacing: 0px;
+
+    font-stretch: ultra-expanded
+
+   // font-family:Century Gothic,sans-serif;
+    //font-weight:100;
+    color:#93f8ff;
+  }
