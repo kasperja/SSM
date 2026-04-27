@@ -1,7 +1,7 @@
 Let's make a game!
 	name:Space Station Manager
 	by:kasperja
-	desc:Manage your station.<//>Click your way to trade with the universe!</><//><b>Credits:</b><.>Sprite parts: Space Ship & Mech Construction Kit 2 by Skorpio<.>Programming assistance: TrueWolves<.>Dynamic Tooltips: MageKing17</><//><b>Bulk Buying:</b><.>Hold <b>Shift</b> to buy 50 of a Ship or Outpost each time.<.>[incrementaldb_verification: kasperja]
+	desc:Manage your station.<//>Click your way to trade with the universe!</><//><b>Credits:</b><.>Sprite parts: Space Ship & Mech Construction Kit 2 by Skorpio<.>Programming assistance: TrueWolves<.>Dynamic Tooltips: MageKing17</><//><b>Bulk Buying:</b><.>Hold <b>Shift</b> to buy 50 of a Ship or Outpost each time.
 	created:11/12/2021
 	updated:28/3/2024
 	version:3.0
