@@ -4,14 +4,14 @@ Let's make a game!
 	desc:Manage your station.<//>Click your way to trade with the universe!</><//><b>Credits:</b><.>Sprite parts: Space Ship & Mech Construction Kit 2 by Skorpio<.>Programming assistance: TrueWolves<.>Dynamic Tooltips: MageKing17</><//><b>Bulk Buying:</b><.>Hold <b>Shift</b> to buy 50 of a Ship or Outpost each time.
 	created:11/12/2021
 	updated:28/3/2024
-	version:3.0
+	version:3.2
 
 Settings
-	background:https://raw.githubusercontent.com/kasperja/SSM/main/TRYBh3Y.jpg
+	background:https://raw.githubusercontent.com/kasperja/SSM/refs/heads/main/TRYBh3Y-upst_upscayl_1x_ultrasharp.jpg
 	building cost increase:110%
 	building cost refund:50%
 
-	spritesheet:icons, 48 by 48, https://raw.githubusercontent.com/kasperja/SSM/main/SpriteCrystalsEC2.png
+	spritesheet:icons, 192 by 192, https://raw.githubusercontent.com/kasperja/SSM/refs/heads/main/SpriteCrystal-Ups7.png
 
 	stylesheet:https://raw.githubusercontent.com/kasperja/SSM/refs/heads/main/SSM3-2-CSS.txt
 
@@ -62,8 +62,8 @@ Buttons
 	*bunnyButton|tradeButton
 		name:Trade
 		desc:Trade to earn Alz.<//><b>Stats:</b><.>Station Level <b>[slvl]</b><.>Uber Level <b>[ulvl]</b><.>Total ships owned : <b>[totalShips]</b><.>Total outposts owned : <b>[totalPlanets]</b>
-		on start:log Welcome to </#></><t>Space Station Manager</#> <//> Game version: 3.0</#>
-		on load:log Welcome to </#></><t>Space Station Manager</#> <//> Game version: 3.0</#>
+		on start:log Welcome to </#></><t>Space Station Manager</#> <//> Game version: 3.2</#>
+		on load:log Welcome to </#></><t>Space Station Manager</#> <//> Game version: 3.2</#>
 		on load:log Game loaded.
 		on click:anim icon wobble
 		on click:yield 1 alz
@@ -74,7 +74,7 @@ Buttons
 				yield 1 tsc
 			end
 		end
-		icon:https://raw.githubusercontent.com/kasperja/SSM/main/ZZnnx71%20-%20Imgur.gif
+		icon:https://github.com/kasperja/SSM/releases/download/station6/Station6.gif
 
 		no text
 		class:bigButton
@@ -526,11 +526,11 @@ Resources
 Shinies
 	*luckyBunny|bountyHunter
 		movement:onRight moveLeft
-		frequency: 60
+		frequency:60
 		frequency variation:30
 		req:7000 talz
 		icon:https://raw.githubusercontent.com/kasperja/SSM/main/t8RoQYb.png
-		class:bigButton
+		class:bigButton bountyH
 		on click:
 			$boost=1
 			if (have pirateHunters) $boost=4
