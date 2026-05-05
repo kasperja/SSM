@@ -1021,6 +1021,7 @@ margin: -72px !important;
 margin-top: -86px !important;
 margin-left: -90px !important;
 margin-bottom: -72px !important;
+margin-right: -66px !important;
 } 
 
 #tooltip{
